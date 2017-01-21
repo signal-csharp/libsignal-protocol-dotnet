@@ -1,0 +1,112 @@
+syntax = "proto3";
+package textsecure;
+option csharp_namespace = "libsignal.state";
+
+
+message SessionStructure {
+    message Chain {
+        oneof senderRatchetKey_oneof			{ bytes senderRatchetKey = 1; }
+        oneof senderRatchetKeyPrivate_oneof		{ bytes senderRatchetKeyPrivate = 2; }
+
+        message ChainKey {
+            oneof index_oneof					{ uint32 index = 1; }
+            oneof key_oneof						{ bytes  key   = 2; }
+        }
+
+        oneof chainKey_oneof					{ ChainKey chainKey = 3; }
+
+        message MessageKey {
+            oneof index_oneof					{ uint32 index     = 1; }
+            oneof cipherKey_oneof				{ bytes  cipherKey = 2; }
+            oneof macKey_oneof					{ bytes  macKey    = 3; }
+            oneof iv_oneof						{ bytes  iv        = 4; }
+        }
+
+        repeated MessageKey messageKeys = 4;
+    }
+
+    message PendingKeyExchange {
+        oneof sequence_oneof					{ uint32 sequence                 = 1; }
+        oneof localBaseKey_oneof				{ bytes  localBaseKey             = 2; }
+        oneof localBaseKeyPrivate_oneof			{ bytes  localBaseKeyPrivate      = 3; }
+        oneof localRatchetKey_oneof				{ bytes  localRatchetKey          = 4; }
+        oneof localRatchetKeyPrivate_oneof		{ bytes  localRatchetKeyPrivate   = 5; }
+        oneof localIdentityKey_oneof			{ bytes  localIdentityKey         = 7; }
+        oneof localIdentityKeyPrivate_oneof		{ bytes  localIdentityKeyPrivate  = 8; }
+    }
+
+    message PendingPreKey {
+        oneof preKeyId_oneof					{ uint32 preKeyId       = 1; }
+        oneof signedPreKeyId_oneof				{ int32  signedPreKeyId = 3; }
+        oneof baseKey_oneof						{ bytes  baseKey        = 2; }
+    }
+
+    oneof sessionVersion_oneof					{ uint32 sessionVersion      = 1; }
+    oneof localIdentityPublic_oneof				{ bytes localIdentityPublic  = 2; }
+    oneof remoteIdentityPublic_oneof			{ bytes remoteIdentityPublic = 3; }
+
+    oneof rootKey_oneof							{ bytes rootKey              = 4; }
+    oneof previousCounter_oneof					{ uint32 previousCounter     = 5; }
+
+    oneof senderChain_oneof						{ Chain senderChain          = 6; }
+    repeated Chain receiverChains       = 7;
+
+    oneof pendingKeyExchange_oneof				{ PendingKeyExchange pendingKeyExchange = 8; }
+    oneof pendingPreKey_oneof					{ PendingPreKey      pendingPreKey      = 9; }
+
+    oneof remoteRegistrationId_oneof			{ uint32 remoteRegistrationId = 10; }
+    oneof localRegistrationId_oneof				{ uint32 localRegistrationId  = 11; }
+
+    oneof needsRefresh_oneof					{ bool needsRefresh = 12; }
+    oneof aliceBaseKey_oneof					{ bytes aliceBaseKey = 13; }
+}
+
+message RecordStructure {
+    oneof sequence_oneof						{ SessionStructure currentSession   = 1; }
+    repeated SessionStructure previousSessions = 2;
+}
+
+message PreKeyRecordStructure {
+    oneof id_oneof							{ uint32 id        = 1; }
+    oneof publicKey_oneof					{ bytes  publicKey = 2; }
+    oneof privateKey_oneof					{ bytes  privateKey = 3; }
+}
+
+message SignedPreKeyRecordStructure {
+    oneof id_oneof							{ uint32  id         = 1; }
+    oneof publicKey_oneof					{ bytes   publicKey  = 2; }
+    oneof privateKey_oneof					{ bytes   privateKey = 3; }
+    oneof signature_oneof					{ bytes   signature  = 4; }
+    oneof timestamp_oneof					{ fixed64 timestamp  = 5; }
+}
+
+message IdentityKeyPairStructure {
+    oneof publicKey_oneof					{ bytes publicKey  = 1; }
+    oneof privateKey_oneof					{ bytes privateKey = 2; }
+}
+
+message SenderKeyStateStructure {
+    message SenderChainKey {
+        oneof iteration_oneof							{ uint32 iteration = 1; }
+        oneof seed_oneof							{ bytes  seed      = 2; }
+    }
+
+    message SenderMessageKey {
+        oneof iteration_oneof							{ uint32 iteration = 1; }
+        oneof seed_oneof							{ bytes  seed      = 2; }
+    }
+
+    message SenderSigningKey {
+        oneof public_oneof							{ bytes public  = 1; }
+        oneof private_oneof							{ bytes private = 2; }
+    }
+
+    oneof senderKeyId_oneof							{ uint32           senderKeyId       = 1; }
+    oneof senderChainKey_oneof							{ SenderChainKey   senderChainKey    = 2; }
+    oneof senderSigningKey_oneof							{ SenderSigningKey senderSigningKey  = 3; }
+    repeated SenderMessageKey senderMessageKeys = 4;
+}
+
+message SenderKeyRecordStructure {
+    repeated SenderKeyStateStructure senderKeyStates = 1;
+}

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>libsignal-protocol-dotnet</id>
+    <version>1.0.0</version>
+    <title>libsignal-protocol-dotnet</title>
+    <authors>golf1052, langboost, Trolldemorted</authors>
+    <owners>golf1052, langboost</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/golf1052/curve25519-pcl/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/golf1052/curve25519-pcl</projectUrl>
+    <description>.NETStandard C# implementation of libsignal-protocol</description>
+    <releaseNotes>.NETSTandard</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>libsignal-protocol signal</tags>
+	<dependencies>
+	  <dependency id="curve25519-dotnet" version="1.2.0" />
+	  <dependency id="Google.Protobuf" version="3.1.0"/>
+	  <dependency id="May-dotnet" version="1.1.0" />
+	  <dependency id="System.Security.Cryptography.Algorithms" version="4.3.0"/>
+	  <dependency id="NETStandard.Library" version="1.6.1"/>
+	</dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\libsignal-protocol-dotnet.dll" target="lib\netstandard1.4\libsignal-protocol-dotnet.dll" />
+  </files>
+</package>

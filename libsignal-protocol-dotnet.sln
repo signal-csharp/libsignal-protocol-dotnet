@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libsignal-protocol-dotnet", "libsignal-protocol-dotnet\libsignal-protocol-dotnet.csproj", "{331F39A8-609C-46BB-813C-8669FEBA4A03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "signal-protocol-tests", "signal-protocol-tests\signal-protocol-tests.csproj", "{3B01684C-A5C1-4165-A384-FB9D89D10F16}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{331F39A8-609C-46BB-813C-8669FEBA4A03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{331F39A8-609C-46BB-813C-8669FEBA4A03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{331F39A8-609C-46BB-813C-8669FEBA4A03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{331F39A8-609C-46BB-813C-8669FEBA4A03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B01684C-A5C1-4165-A384-FB9D89D10F16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B01684C-A5C1-4165-A384-FB9D89D10F16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B01684C-A5C1-4165-A384-FB9D89D10F16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B01684C-A5C1-4165-A384-FB9D89D10F16}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

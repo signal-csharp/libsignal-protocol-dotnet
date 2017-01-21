@@ -1,0 +1,13 @@
+syntax = "proto3";
+option csharp_namespace = "libsignal.fingerprint";
+
+message LogicalFingerprint {
+  oneof content_oneof				{ bytes content = 1; }
+  // bytes identifier = 2;
+}
+
+message CombinedFingerprints {
+  oneof version_oneof				{ uint32             version           = 1; }
+  oneof localFingerprint_oneof		{ LogicalFingerprint localFingerprint  = 2; }
+  oneof remoteFingerprint_oneof		{ LogicalFingerprint remoteFingerprint = 3; }
+}
