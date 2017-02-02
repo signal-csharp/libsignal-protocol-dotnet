@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>libsignal-protocol-dotnet</id>
-    <version>1.0.0</version>
+    <version>1.2.2</version>
     <title>libsignal-protocol-dotnet</title>
     <authors>golf1052, langboost, Trolldemorted</authors>
     <owners>golf1052, langboost</owners>
@@ -14,11 +14,11 @@
     <copyright>Copyright 2017</copyright>
     <tags>libsignal-protocol signal</tags>
 	<dependencies>
-	  <dependency id="curve25519-dotnet" version="1.2.0" />
-	  <dependency id="Google.Protobuf" version="3.1.0"/>
-	  <dependency id="May-dotnet" version="1.1.0" />
-	  <dependency id="System.Security.Cryptography.Algorithms" version="4.3.0"/>
-	  <dependency id="NETStandard.Library" version="1.6.1"/>
+	  <dependency id="curve25519-dotnet" version="1.3.2" />
+	  <dependency id="Google.Protobuf" version="3.2.0" />
+	  <dependency id="May-dotnet" version="1.1.2" />
+	  <dependency id="NETStandard.Library" version="1.6.1" />
+	  <dependency id="System.Security.Cryptography.Algorithms" version="4.3.0" />
 	</dependencies>
   </metadata>
   <files>
