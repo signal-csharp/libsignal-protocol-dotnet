@@ -1,5 +1,5 @@
 ﻿/** 
- * Copyright (C) 2016 smndtrl, langboost
+ * Copyright (C) 2017 smndtrl, langboost, Trolldemorted
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,29 +21,18 @@ namespace libsignal
 {
     public class SignalProtocolAddress
     {
-
-        private readonly String name;
-        private readonly uint deviceId;
+        public string Name { get; }
+        public uint DeviceId { get; }
 
         public SignalProtocolAddress(String name, uint deviceId)
         {
-            this.name = name;
-            this.deviceId = deviceId;
-        }
-
-        public String getName()
-        {
-            return name;
-        }
-
-        public uint getDeviceId()
-        {
-            return deviceId;
+            this.Name = name;
+            this.DeviceId = deviceId;
         }
 
         public override String ToString()
         {
-            return name + ":" + deviceId;
+            return Name + ":" + DeviceId;
         }
 
         public override bool Equals(Object other)
@@ -52,13 +41,12 @@ namespace libsignal
             if (!(other is SignalProtocolAddress)) return false;
 
             SignalProtocolAddress that = (SignalProtocolAddress)other;
-            return this.name.Equals(that.name) && this.deviceId == that.deviceId;
+            return this.Name.Equals(that.Name) && this.DeviceId == that.DeviceId;
         }
-
 
         public override int GetHashCode()
         {
-            return this.name.GetHashCode() ^ (int)this.deviceId;
+            return this.Name.GetHashCode() ^ (int)this.DeviceId;
         }
     }
 }

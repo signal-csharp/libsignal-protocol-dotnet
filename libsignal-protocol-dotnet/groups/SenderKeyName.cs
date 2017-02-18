@@ -46,7 +46,7 @@ namespace libsignal.groups
 
         public String serialize()
         {
-            return groupId + "::" + sender.getName() + "::" + sender.getDeviceId();
+            return groupId + "::" + sender.Name + "::" + sender.DeviceId;
         }
 
 

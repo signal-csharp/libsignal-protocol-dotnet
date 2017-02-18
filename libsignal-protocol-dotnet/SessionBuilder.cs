@@ -106,7 +106,7 @@ namespace libsignal
 
             if (!identityKeyStore.IsTrustedIdentity(remoteAddress, theirIdentityKey))
             {
-                throw new UntrustedIdentityException(remoteAddress.getName(), theirIdentityKey);
+                throw new UntrustedIdentityException(remoteAddress.Name, theirIdentityKey);
             }
 
             May<uint> unsignedPreKeyId = processV3(sessionRecord, message);
@@ -178,7 +178,7 @@ namespace libsignal
             {
                 if (!identityKeyStore.IsTrustedIdentity(remoteAddress, preKey.getIdentityKey()))
                 {
-                    throw new UntrustedIdentityException(remoteAddress.getName(), preKey.getIdentityKey());
+                    throw new UntrustedIdentityException(remoteAddress.Name, preKey.getIdentityKey());
                 }
 
                 if (preKey.getSignedPreKey() != null &&

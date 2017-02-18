@@ -1,35 +1,13 @@
-﻿
-
-using Google.Protobuf;
-/** 
-* Copyright (C) 2016 smndtrl, langboost
-* 
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-* 
-* You should have received a copy of the GNU General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+﻿using Google.Protobuf;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace libsignal.state
 {
-    /**
- * A SessionRecord encapsulates the state of an ongoing session.
- *
- * @author Moxie Marlinspike
- */
+    /// <summary>
+    /// A SessionRecord encapsulates the state of an ongoing session.</summary>
     public class SessionRecord
     {
-
         private static int ARCHIVED_STATES_MAX_LENGTH = 40;
 
         private SessionState sessionState = new SessionState();
@@ -61,21 +39,17 @@ namespace libsignal.state
 
         public bool hasSessionState(uint version, byte[] aliceBaseKey)
         {
-            if (sessionState.getSessionVersion() == version &&
-                Enumerable.SequenceEqual(aliceBaseKey, sessionState.getAliceBaseKey()))
+            if (sessionState.getSessionVersion() == version && Enumerable.SequenceEqual(aliceBaseKey, sessionState.getAliceBaseKey()))
             {
                 return true;
             }
-
             foreach (SessionState state in previousStates)
             {
-                if (state.getSessionVersion() == version &&
-                    Enumerable.SequenceEqual(aliceBaseKey, state.getAliceBaseKey()))
+                if (state.getSessionVersion() == version && Enumerable.SequenceEqual(aliceBaseKey, state.getAliceBaseKey()))
                 {
                     return true;
                 }
             }
-
             return false;
         }
 
@@ -84,9 +58,8 @@ namespace libsignal.state
             return sessionState;
         }
 
-        /**
-         * @return the list of all currently maintained "previous" session states.
-         */
+        /// <returns>
+        /// return the list of all currently maintained "previous" session states.</returns>
         public LinkedList<SessionState> getPreviousSessionStates()
         {
             return previousStates;
@@ -98,11 +71,9 @@ namespace libsignal.state
             return fresh;
         }
 
-        /**
-         * Move the current {@link SessionState} into the list of "previous" session states,
-         * and replace the current {@link org.whispersystems.libsignal.state.SessionState}
-         * with a fresh reset instance.
-         */
+         /// <summary>
+         /// Move the current SessionState into the list of "previous" session states,
+         /// and replace the current SessionState with a fresh reset instance.</summary>
         public void archiveCurrentState()
         {
             promoteState(new SessionState());
@@ -112,7 +83,6 @@ namespace libsignal.state
         {
             this.previousStates.AddFirst(sessionState);
             this.sessionState = promotedState;
-
             if (previousStates.Count > ARCHIVED_STATES_MAX_LENGTH)
             {
                 previousStates.RemoveLast();
@@ -124,18 +94,15 @@ namespace libsignal.state
             this.sessionState = sessionState;
         }
 
-        /**
-         * @return a serialized version of the current SessionRecord.
-         */
+        /// <returns>
+        /// Returns a serialized version of the current SessionRecord.</returns>
         public byte[] serialize()
         {
             List<SessionStructure> previousStructures = new List<SessionStructure>();
-
             foreach (SessionState previousState in previousStates)
             {
                 previousStructures.Add(previousState.getStructure());
             }
-
             RecordStructure record = new RecordStructure
             {
                 CurrentSession = sessionState.getStructure(),
@@ -143,6 +110,5 @@ namespace libsignal.state
             record.PreviousSessions.AddRange(previousStructures);
             return record.ToByteArray();
         }
-
     }
 }

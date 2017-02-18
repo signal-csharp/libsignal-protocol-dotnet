@@ -59,10 +59,10 @@ namespace libsignal.state.impl
 
 			foreach (SignalProtocolAddress key in sessions.Keys) //keySet()
 			{
-				if (key.getName().Equals(name) &&
-					key.getDeviceId() != 1)
+				if (key.Name.Equals(name) &&
+					key.DeviceId != 1)
 				{
-					deviceIds.Add(key.getDeviceId());
+					deviceIds.Add(key.DeviceId);
 				}
 			}
 
@@ -92,7 +92,7 @@ namespace libsignal.state.impl
 		{
 			foreach (SignalProtocolAddress key in sessions.Keys) // keySet()
 			{
-				if (key.getName().Equals(name))
+				if (key.Name == name)
 				{
 					sessions.Remove(key);
 				}
