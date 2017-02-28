@@ -59,26 +59,18 @@ namespace libsignal.util
          */
         public static uint generateRegistrationId(bool extendedRange)
         {
-            //try
-            //{
-                //SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
-                if (extendedRange) return getRandomSequence(uint.MaxValue - 1) + 1;
-                else return getRandomSequence(16380) + 1;
-            /*}
-            catch (NoSuchAlgorithmException e)
-            {
-                throw new AssertionError(e);
-            }*/
+            if (extendedRange) return getRandomSequence(uint.MaxValue - 1) + 1;
+            else return getRandomSequence(16380) + 1;
         }
 
         public static uint getRandomSequence(uint max)
         {
-            byte[] randomBytes = new byte[4];
+            byte[] randomBytes = new byte[sizeof(uint)];
             using (var gen = RandomNumberGenerator.Create())
             {
                 gen.GetBytes(randomBytes);
             }
-            return BitConverter.ToUInt32(randomBytes, 0);
+            return BitConverter.ToUInt32(randomBytes, 0) % max;
         }
 
         /**
