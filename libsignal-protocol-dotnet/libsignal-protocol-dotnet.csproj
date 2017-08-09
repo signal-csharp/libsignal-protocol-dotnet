@@ -1,146 +1,25 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{331F39A8-609C-46BB-813C-8669FEBA4A03}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>libsignal_protocol_dotnet</RootNamespace>
-    <AssemblyName>libsignal-protocol-dotnet</AssemblyName>
-    <DefaultLanguage>de-DE</DefaultLanguage>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <IncludeSource>True</IncludeSource>
+    <IncludeSymbols>True</IncludeSymbols>
+    <Version>1.3.4</Version>
+    <Authors>golf1052, langboost, Trolldemorted</Authors>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageLicenseUrl>https://www.gnu.org/licenses/gpl-3.0.html</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/signal-csharp/libsignal-protocol-dotnet</PackageProjectUrl>
+    <Description>An unofficial .NETStandard signal protocol library</Description>
+    <RepositoryUrl>https://github.com/signal-csharp/libsignal-protocol-dotnet</RepositoryUrl>
+    <PackageTags>signal libsignal libsignal-protocol libsignal-protocol-dotnet</PackageTags>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <None Include="project.json" />
-    <None Include="Protobuf\FingerprintProtocol.proto" />
-    <None Include="Protobuf\LocalStorageProtocol.proto" />
-    <None Include="Protobuf\Makefile.bat" />
-    <None Include="Protobuf\WhisperTextProtocol.proto" />
-    <!-- A reference to the entire .NET Framework is automatically included -->
+    <PackageReference Include="curve25519-dotnet" Version="1.3.2" />
+    <PackageReference Include="Google.Protobuf" Version="3.3.0" />
+    <PackageReference Include="May-dotnet" Version="1.2.3" />
+    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="DecryptionCallback.cs" />
-    <Compile Include="devices\DeviceConsistencyCodeGenerator.cs" />
-    <Compile Include="devices\DeviceConsistencyCommitment.cs" />
-    <Compile Include="devices\DeviceConsistencySignature.cs" />
-    <Compile Include="DuplicateMessageException.cs" />
-    <Compile Include="ecc\Curve.cs" />
-    <Compile Include="ecc\Curve25519.cs" />
-    <Compile Include="ecc\Curve25519KeyPair.cs" />
-    <Compile Include="ecc\DjbECPrivateKey.cs" />
-    <Compile Include="ecc\DjbECPublicKey.cs" />
-    <Compile Include="ecc\ECKeyPair.cs" />
-    <Compile Include="ecc\ECPrivateKey.cs" />
-    <Compile Include="ecc\ECPublicKey.cs" />
-    <Compile Include="ecc\impl\Curve25519ManagedProvider.cs" />
-    <Compile Include="ecc\impl\Curve25519NativeProvider.cs" />
-    <Compile Include="ecc\impl\ICurve25519Provider.cs" />
-    <Compile Include="fingerprint\DisplayableFingerprint.cs" />
-    <Compile Include="fingerprint\Fingerprint.cs" />
-    <Compile Include="fingerprint\FingerprintGenerator.cs" />
-    <Compile Include="fingerprint\FingerprintIdentifierMismatchException.cs" />
-    <Compile Include="fingerprint\FingerprintParsingException.cs" />
-    <Compile Include="fingerprint\FingerprintProtos.cs" />
-    <Compile Include="fingerprint\FingerprintVersionMismatchException.cs" />
-    <Compile Include="fingerprint\NumericFingerprintGenerator.cs" />
-    <Compile Include="fingerprint\ScannableFingerprint.cs" />
-    <Compile Include="groups\GroupCipher.cs" />
-    <Compile Include="groups\GroupSessionBuilder.cs" />
-    <Compile Include="groups\ratchet\SenderChainKey.cs" />
-    <Compile Include="groups\ratchet\SenderMessageKey.cs" />
-    <Compile Include="groups\SenderKeyName.cs" />
-    <Compile Include="groups\state\SenderKeyRecord.cs" />
-    <Compile Include="groups\state\SenderKeyState.cs" />
-    <Compile Include="groups\state\SenderKeyStore.cs" />
-    <Compile Include="IdentityKey.cs" />
-    <Compile Include="IdentityKeyPair.cs" />
-    <Compile Include="InvalidKeyException.cs" />
-    <Compile Include="InvalidKeyIdException.cs" />
-    <Compile Include="InvalidMacException.cs" />
-    <Compile Include="InvalidMessageException.cs" />
-    <Compile Include="InvalidVersionException.cs" />
-    <Compile Include="kdf\DerivedMessageSecrets.cs" />
-    <Compile Include="kdf\DerivedRootSecrets.cs" />
-    <Compile Include="kdf\HKDF.cs" />
-    <Compile Include="kdf\HKDFv2.cs" />
-    <Compile Include="kdf\HKDFv3.cs" />
-    <Compile Include="LegacyMessageException.cs" />
-    <Compile Include="NoSessionException.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="protocol\CiphertextMessage.cs" />
-    <Compile Include="protocol\DeviceConsistencyMessage.cs" />
-    <Compile Include="protocol\PreKeySignalMessage.cs" />
-    <Compile Include="protocol\SenderKeyDistributionMessage.cs" />
-    <Compile Include="protocol\SenderKeyMessage.cs" />
-    <Compile Include="protocol\SignalProtos.cs" />
-    <Compile Include="protocol\SignalMessage.cs" />
-    <Compile Include="ratchet\AliceSignalProtocolParameters.cs" />
-    <Compile Include="ratchet\BobSignalProtocolParameters.cs" />
-    <Compile Include="ratchet\ChainKey.cs" />
-    <Compile Include="ratchet\MessageKeys.cs" />
-    <Compile Include="ratchet\RatchetingSession.cs" />
-    <Compile Include="ratchet\RootKey.cs" />
-    <Compile Include="ratchet\SymmetricSignalProtocolParameters.cs" />
-    <Compile Include="SessionBuilder.cs" />
-    <Compile Include="SessionCipher.cs" />
-    <Compile Include="SignalProtocolAddress.cs" />
-    <Compile Include="StaleKeyExchangeException.cs" />
-    <Compile Include="state\IdentityKeyStore.cs" />
-    <Compile Include="state\impl\InMemoryIdentityKeyStore.cs" />
-    <Compile Include="state\impl\InMemoryPreKeyStore.cs" />
-    <Compile Include="state\impl\InMemorySessionStore.cs" />
-    <Compile Include="state\impl\InMemorySignalProtocolStore.cs" />
-    <Compile Include="state\impl\InMemorySignedPreKeyStore.cs" />
-    <Compile Include="state\PreKeyBundle.cs" />
-    <Compile Include="state\PreKeyRecord.cs" />
-    <Compile Include="state\PreKeyStore.cs" />
-    <Compile Include="state\SessionRecord.cs" />
-    <Compile Include="state\SessionState.cs" />
-    <Compile Include="state\SessionStore.cs" />
-    <Compile Include="state\SignalProtocolStore.cs" />
-    <Compile Include="state\SignedPreKeyRecord.cs" />
-    <Compile Include="state\SignedPreKeyStore.cs" />
-    <Compile Include="state\StorageProtos.cs" />
-    <Compile Include="UntrustedIdentityException.cs" />
-    <Compile Include="util\ByteArrayComparator.cs" />
-    <Compile Include="util\ByteUtil.cs" />
-    <Compile Include="util\HMAC.cs" />
-    <Compile Include="util\IdentityKeyComparator.cs" />
-    <Compile Include="util\KeyHelper.cs" />
-    <Compile Include="util\Medium.cs" />
-    <Compile Include="util\Pair.cs" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

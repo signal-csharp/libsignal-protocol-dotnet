@@ -19,9 +19,9 @@ using libsignal;
 using libsignal.groups;
 using libsignal.protocol;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static PCLCrypto.WinRTCrypto;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace libsignal_test.groups
@@ -319,7 +319,11 @@ namespace libsignal_test.groups
         private uint randomUInt()
         {
 
-            byte[] randomBytes = CryptographicBuffer.GenerateRandom(4);
+            byte[] randomBytes = new byte[4];
+            using (var gen = RandomNumberGenerator.Create())
+            {
+                gen.GetBytes(randomBytes);
+            }
             return BitConverter.ToUInt32(randomBytes, 0);
         }
     }
