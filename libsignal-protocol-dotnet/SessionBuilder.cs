@@ -153,7 +153,7 @@ namespace libsignal
             sessionRecord.getSessionState().setRemoteRegistrationId(message.getRegistrationId());
             sessionRecord.getSessionState().setAliceBaseKey(message.getBaseKey().serialize());
 
-            if (message.getPreKeyId().HasValue && message.getPreKeyId().ForceGetValue() != Medium.MAX_VALUE)
+            if (message.getPreKeyId().HasValue)
             {
                 return message.getPreKeyId();
             }
