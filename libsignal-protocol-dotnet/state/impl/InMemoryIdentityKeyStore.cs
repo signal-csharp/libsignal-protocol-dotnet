@@ -20,39 +20,39 @@ using System.Collections.Generic;
 
 namespace libsignal.state.impl
 {
-	/// <summary>
-	/// In-memory / testing implementation of IdentityKeyStore
-	/// </summary>
-	public class InMemoryIdentityKeyStore : IdentityKeyStore
-	{
+    /// <summary>
+    /// In-memory / testing implementation of IdentityKeyStore
+    /// </summary>
+    public class InMemoryIdentityKeyStore : IdentityKeyStore
+    {
 
-		private readonly IDictionary<SignalProtocolAddress, IdentityKey> trustedKeys = new Dictionary<SignalProtocolAddress, IdentityKey>();
+        private readonly IDictionary<SignalProtocolAddress, IdentityKey> trustedKeys = new Dictionary<SignalProtocolAddress, IdentityKey>();
 
-		private readonly IdentityKeyPair identityKeyPair;
-		private readonly uint localRegistrationId;
+        private readonly IdentityKeyPair identityKeyPair;
+        private readonly uint localRegistrationId;
 
-		/// <summary>
-		/// .ctor
-		/// </summary>
-		public InMemoryIdentityKeyStore(IdentityKeyPair identityKeyPair, uint localRegistrationId)
-		{
-			this.identityKeyPair = identityKeyPair;
-			this.localRegistrationId = localRegistrationId;
-		}
+        /// <summary>
+        /// .ctor
+        /// </summary>
+        public InMemoryIdentityKeyStore(IdentityKeyPair identityKeyPair, uint localRegistrationId)
+        {
+            this.identityKeyPair = identityKeyPair;
+            this.localRegistrationId = localRegistrationId;
+        }
 
-		public IdentityKeyPair GetIdentityKeyPair()
-		{
-			return identityKeyPair;
-		}
+        public IdentityKeyPair GetIdentityKeyPair()
+        {
+            return identityKeyPair;
+        }
 
 
-		public uint GetLocalRegistrationId()
-		{
-			return localRegistrationId;
-		}
+        public uint GetLocalRegistrationId()
+        {
+            return localRegistrationId;
+        }
 
-		public bool SaveIdentity(SignalProtocolAddress address, IdentityKey identityKey)
-		{
+        public bool SaveIdentity(SignalProtocolAddress address, IdentityKey identityKey)
+        {
             IdentityKey existing;
             trustedKeys.TryGetValue(address, out existing);
 
@@ -65,13 +65,13 @@ namespace libsignal.state.impl
             {
                 return false;
             }
-		}
+        }
 
-		public bool IsTrustedIdentity(SignalProtocolAddress address, IdentityKey identityKey, Direction direction)
-		{
-			IdentityKey trusted;
-			trustedKeys.TryGetValue(address, out trusted); // get(name)
-			return (trusted == null || trusted.Equals(identityKey));
-		}
-	}
+        public bool IsTrustedIdentity(SignalProtocolAddress address, IdentityKey identityKey, Direction direction)
+        {
+            IdentityKey trusted;
+            trustedKeys.TryGetValue(address, out trusted); // get(name)
+            return (trusted == null || trusted.Equals(identityKey));
+        }
+    }
 }
