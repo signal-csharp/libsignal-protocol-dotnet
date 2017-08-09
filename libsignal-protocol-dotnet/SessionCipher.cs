@@ -92,7 +92,7 @@ namespace libsignal
                 uint previousCounter = sessionState.getPreviousCounter();
                 uint sessionVersion = sessionState.getSessionVersion();
 
-                byte[] ciphertextBody = getCiphertext(sessionVersion, messageKeys, paddedMessage);
+                byte[] ciphertextBody = getCiphertext(messageKeys, paddedMessage);
                 CiphertextMessage ciphertextMessage = new SignalMessage(sessionVersion, messageKeys.getMacKey(),
                                                                          senderEphemeral, chainKey.getIndex(),
                                                                          previousCounter, ciphertextBody,
@@ -314,19 +314,17 @@ namespace libsignal
                 throw new InvalidMessageException($"Message version {ciphertextMessage.getMessageVersion()}, but session version {sessionState.getSessionVersion()}");
             }
 
-            uint messageVersion = ciphertextMessage.getMessageVersion();
             ECPublicKey theirEphemeral = ciphertextMessage.getSenderRatchetKey();
             uint counter = ciphertextMessage.getCounter();
             ChainKey chainKey = getOrCreateChainKey(sessionState, theirEphemeral);
             MessageKeys messageKeys = getOrCreateMessageKeys(sessionState, theirEphemeral,
                                                                       chainKey, counter);
 
-            ciphertextMessage.verifyMac(messageVersion,
-                                            sessionState.getRemoteIdentityKey(),
+            ciphertextMessage.verifyMac(sessionState.getRemoteIdentityKey(),
                                             sessionState.getLocalIdentityKey(),
                                             messageKeys.getMacKey());
 
-            byte[] plaintext = getPlaintext(messageVersion, messageKeys, ciphertextMessage.getBody());
+            byte[] plaintext = getPlaintext(messageKeys, ciphertextMessage.getBody());
 
             sessionState.clearUnacknowledgedPreKeyMessage();
 
@@ -420,46 +418,14 @@ namespace libsignal
             return chainKey.getMessageKeys();
         }
 
-        private byte[] getCiphertext(uint version, MessageKeys messageKeys, byte[] plaintext)
+        private byte[] getCiphertext(MessageKeys messageKeys, byte[] plaintext)
         {
-            try
-            {
-                if (version >= 3)
-                {
-                    //cipher = getCipher(Cipher.ENCRYPT_MODE, messageKeys.getCipherKey(), messageKeys.getIv());
-                    return Encrypt.aesCbcPkcs5(plaintext, messageKeys.getCipherKey(), messageKeys.getIv());
-                }
-                else
-                {
-                    throw new NotImplementedException("versions <3 are not supported");
-                }
-            }
-            catch (/*IllegalBlockSizeException | BadPadding*/Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            return Encrypt.aesCbcPkcs5(plaintext, messageKeys.getCipherKey(), messageKeys.getIv());
         }
 
-        private byte[] getPlaintext(uint version, MessageKeys messageKeys, byte[] cipherText)
+        private byte[] getPlaintext(MessageKeys messageKeys, byte[] cipherText)
         {
-            try
-            {
-                //Cipher cipher;
-
-                if (version >= 3)
-                {
-                    //cipher = getCipher(Cipher.DECRYPT_MODE, messageKeys.getCipherKey(), messageKeys.getIv());
-                    return Decrypt.aesCbcPkcs5(cipherText, messageKeys.getCipherKey(), messageKeys.getIv());
-                }
-                else
-                {
-                    throw new NotImplementedException("version <3 is not supported");
-                }
-            }
-            catch (/*IllegalBlockSizeException | BadPadding*/Exception e)
-            {
-                throw new InvalidMessageException(e);
-            }
+            return Decrypt.aesCbcPkcs5(cipherText, messageKeys.getCipherKey(), messageKeys.getIv());
         }
 
         private class NullDecryptionCallback : DecryptionCallback

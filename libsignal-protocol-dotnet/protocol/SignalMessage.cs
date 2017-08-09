@@ -45,7 +45,7 @@ namespace libsignal.protocol
                 byte[] message = messageParts[1];
                 byte[] mac = messageParts[2];
 
-                if (ByteUtil.highBitsToInt(version) <= CiphertextMessage.UNSUPPORTED_VERSION)
+                if (ByteUtil.highBitsToInt(version) <= CiphertextMessage.CURRENT_VERSION)
                 {
                     throw new LegacyMessageException("Legacy message: " + ByteUtil.highBitsToInt(version));
                 }
@@ -100,8 +100,7 @@ namespace libsignal.protocol
                 Ciphertext = ByteString.CopyFrom(ciphertext),
             }.ToByteArray();
 
-            byte[] mac = getMac(messageVersion, senderIdentityKey, receiverIdentityKey, macKey,
-                                    ByteUtil.combine(version, message));
+            byte[] mac = getMac(senderIdentityKey, receiverIdentityKey, macKey, ByteUtil.combine(version, message));
 
             this.serialized = ByteUtil.combine(version, message, mac);
             this.senderRatchetKey = senderRatchetKey;
@@ -131,11 +130,11 @@ namespace libsignal.protocol
             return ciphertext;
         }
 
-        public void verifyMac(uint messageVersion, IdentityKey senderIdentityKey,
+        public void verifyMac(IdentityKey senderIdentityKey,
                         IdentityKey receiverIdentityKey, byte[] macKey)
         {
             byte[][] parts = ByteUtil.split(serialized, serialized.Length - MAC_LENGTH, MAC_LENGTH);
-            byte[] ourMac = getMac(messageVersion, senderIdentityKey, receiverIdentityKey, macKey, parts[0]);
+            byte[] ourMac = getMac(senderIdentityKey, receiverIdentityKey, macKey, parts[0]);
             byte[] theirMac = parts[1];
 
             if (!Enumerable.SequenceEqual(ourMac, theirMac))
@@ -144,21 +143,17 @@ namespace libsignal.protocol
             }
         }
 
-        private byte[] getMac(uint messageVersion,
-                        IdentityKey senderIdentityKey,
+        private byte[] getMac(IdentityKey senderIdentityKey,
                         IdentityKey receiverIdentityKey,
                         byte[] macKey, byte[] serialized)
         {
             try
             {
                 MemoryStream stream = new MemoryStream();
-                if (messageVersion >= 3)
-                {
-                    byte[] sik = senderIdentityKey.getPublicKey().serialize();
-                    stream.Write(sik, 0, sik.Length);
-                    byte[] rik = receiverIdentityKey.getPublicKey().serialize();
-                    stream.Write(rik, 0, rik.Length);
-                }
+                byte[] sik = senderIdentityKey.getPublicKey().serialize();
+                stream.Write(sik, 0, sik.Length);
+                byte[] rik = receiverIdentityKey.getPublicKey().serialize();
+                stream.Write(rik, 0, rik.Length);
 
                 stream.Write(serialized, 0, serialized.Length);
                 byte[] fullMac = Sign.sha256sum(macKey, stream.ToArray());
@@ -183,7 +178,7 @@ namespace libsignal.protocol
         public static bool isLegacy(byte[] message)
         {
             return message != null && message.Length >= 1 &&
-                ByteUtil.highBitsToInt(message[0]) <= CiphertextMessage.UNSUPPORTED_VERSION;
+                ByteUtil.highBitsToInt(message[0]) != CURRENT_VERSION;
         }
 
     }

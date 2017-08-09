@@ -20,7 +20,6 @@ namespace libsignal.protocol
     public abstract class CiphertextMessage
     {
 
-        public const uint UNSUPPORTED_VERSION = 1;
         public const uint CURRENT_VERSION = 3;
 
         public const uint WHISPER_TYPE = 2;
