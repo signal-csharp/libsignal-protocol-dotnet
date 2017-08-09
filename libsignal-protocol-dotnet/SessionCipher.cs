@@ -16,6 +16,7 @@
  */
 
 using libsignal.ecc;
+using libsignal.exceptions;
 using libsignal.protocol;
 using libsignal.ratchet;
 using libsignal.state;
@@ -42,6 +43,7 @@ namespace libsignal
 		public static readonly Object SESSION_LOCK = new Object();
 
 		private readonly SessionStore sessionStore;
+        private readonly IdentityKeyStore identityKeyStore;
 		private readonly SessionBuilder sessionBuilder;
 		private readonly PreKeyStore preKeyStore;
 		private readonly SignalProtocolAddress remoteAddress;
@@ -60,6 +62,7 @@ namespace libsignal
 		{
 			this.sessionStore = sessionStore;
 			this.preKeyStore = preKeyStore;
+            this.identityKeyStore = identityKeyStore;
 			this.remoteAddress = remoteAddress;
 			this.sessionBuilder = new SessionBuilder(sessionStore, preKeyStore, signedPreKeyStore,
 													 identityKeyStore, remoteAddress);
@@ -108,6 +111,17 @@ namespace libsignal
 				}
 
 				sessionState.setSenderChainKey(chainKey.getNextChainKey());
+
+                if (!identityKeyStore.IsTrustedIdentity(remoteAddress, sessionState.getRemoteIdentityKey(), Direction.SENDING))
+                {
+                    throw new UntrustedIdentityException(remoteAddress.Name, sessionState.getRemoteIdentityKey());
+                }
+
+                if (identityKeyStore.SaveIdentity(remoteAddress, sessionState.getRemoteIdentityKey()))
+                {
+                    sessionRecord.RemovePreviousSessionStates();
+                }
+
 				sessionStore.StoreSession(remoteAddress, sessionRecord);
 				return ciphertextMessage;
 			}
@@ -164,7 +178,17 @@ namespace libsignal
 				May<uint> unsignedPreKeyId = sessionBuilder.process(sessionRecord, ciphertext);
 				byte[] plaintext = decrypt(sessionRecord, ciphertext.getSignalMessage());
 
-				callback.handlePlaintext(plaintext);
+                if (!identityKeyStore.IsTrustedIdentity(remoteAddress, sessionRecord.getSessionState().getRemoteIdentityKey(), Direction.RECEIVING))
+                {
+                    throw new UntrustedIdentityException(remoteAddress.Name, sessionRecord.getSessionState().getRemoteIdentityKey());
+                }
+
+                if (identityKeyStore.SaveIdentity(remoteAddress, sessionRecord.getSessionState().getRemoteIdentityKey()))
+                {
+                    sessionRecord.RemovePreviousSessionStates();
+                }
+
+                callback.handlePlaintext(plaintext);
 
 				sessionStore.StoreSession(remoteAddress, sessionRecord);
 
