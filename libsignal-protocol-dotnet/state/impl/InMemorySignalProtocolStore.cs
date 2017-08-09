@@ -47,9 +47,9 @@ namespace libsignal.state.impl
         }
 
 
-        public bool SaveIdentity(SignalProtocolAddress address, IdentityKey identityKey)
+        public void SaveIdentity(SignalProtocolAddress address, IdentityKey identityKey)
         {
-            return identityKeyStore.SaveIdentity(address, identityKey);
+            identityKeyStore.SaveIdentity(address, identityKey);
         }
 
 

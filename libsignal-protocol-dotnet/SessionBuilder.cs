@@ -110,10 +110,7 @@ namespace libsignal
 
             May<uint> unsignedPreKeyId = processV3(sessionRecord, message);
 
-            if (identityKeyStore.SaveIdentity(remoteAddress, theirIdentityKey))
-            {
-                sessionRecord.RemovePreviousSessionStates();
-            }
+            identityKeyStore.SaveIdentity(remoteAddress, theirIdentityKey);
             return unsignedPreKeyId;
         }
 
@@ -222,10 +219,7 @@ namespace libsignal
                 sessionRecord.getSessionState().setRemoteRegistrationId(preKey.getRegistrationId());
                 sessionRecord.getSessionState().setAliceBaseKey(ourBaseKey.getPublicKey().serialize());
 
-                if (identityKeyStore.SaveIdentity(remoteAddress, preKey.getIdentityKey()))
-                {
-                    sessionRecord.RemovePreviousSessionStates();
-                }
+                identityKeyStore.SaveIdentity(remoteAddress, preKey.getIdentityKey());
 
                 sessionStore.StoreSession(remoteAddress, sessionRecord);
             }

@@ -51,7 +51,7 @@ namespace libsignal.state.impl
             return localRegistrationId;
         }
 
-        public bool SaveIdentity(SignalProtocolAddress address, IdentityKey identityKey)
+        public void SaveIdentity(SignalProtocolAddress address, IdentityKey identityKey)
         {
             IdentityKey existing;
             trustedKeys.TryGetValue(address, out existing);
@@ -59,11 +59,6 @@ namespace libsignal.state.impl
             if (!identityKey.Equals(existing))
             {
                 trustedKeys[address] = identityKey;
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
 

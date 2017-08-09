@@ -58,7 +58,7 @@ namespace libsignal.state
          * 
          * @return True if the identity key replaces a previous identity, false if not
          */
-        bool SaveIdentity(SignalProtocolAddress address, IdentityKey identityKey);
+        void SaveIdentity(SignalProtocolAddress address, IdentityKey identityKey);
 
 
         /**

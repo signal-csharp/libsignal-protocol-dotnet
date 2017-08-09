@@ -117,10 +117,7 @@ namespace libsignal
                     throw new UntrustedIdentityException(remoteAddress.Name, sessionState.getRemoteIdentityKey());
                 }
 
-                if (identityKeyStore.SaveIdentity(remoteAddress, sessionState.getRemoteIdentityKey()))
-                {
-                    sessionRecord.RemovePreviousSessionStates();
-                }
+                identityKeyStore.SaveIdentity(remoteAddress, sessionState.getRemoteIdentityKey());
 
                 sessionStore.StoreSession(remoteAddress, sessionRecord);
                 return ciphertextMessage;
@@ -181,10 +178,7 @@ namespace libsignal
                     throw new UntrustedIdentityException(remoteAddress.Name, sessionRecord.getSessionState().getRemoteIdentityKey());
                 }
 
-                if (identityKeyStore.SaveIdentity(remoteAddress, sessionRecord.getSessionState().getRemoteIdentityKey()))
-                {
-                    sessionRecord.RemovePreviousSessionStates();
-                }
+                identityKeyStore.SaveIdentity(remoteAddress, sessionRecord.getSessionState().getRemoteIdentityKey());
 
                 callback.handlePlaintext(plaintext);
 
