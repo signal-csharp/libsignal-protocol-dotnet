@@ -45,7 +45,7 @@ namespace libsignal.protocol
                 byte[] message = messageParts[1];
                 byte[] mac = messageParts[2];
 
-                if (ByteUtil.highBitsToInt(version) <= CiphertextMessage.CURRENT_VERSION)
+                if (ByteUtil.highBitsToInt(version) < CURRENT_VERSION)
                 {
                     throw new LegacyMessageException("Legacy message: " + ByteUtil.highBitsToInt(version));
                 }

@@ -46,9 +46,9 @@ namespace libsignal.protocol
                     throw new InvalidVersionException("Unknown version: " + this.version);
                 }
 
-      if (this.version < CiphertextMessage.CURRENT_VERSION) {
-        throw new LegacyMessageException("Legacy version: " + this.version);
-      }
+                if (this.version < CiphertextMessage.CURRENT_VERSION) {
+                throw new LegacyMessageException("Legacy version: " + this.version);
+                }
                 PreKeySignalMessage preKeySignalMessage = PreKeySignalMessage.Parser.ParseFrom(ByteString.CopyFrom(serialized, 1, serialized.Length - 1));
 
                 if (
