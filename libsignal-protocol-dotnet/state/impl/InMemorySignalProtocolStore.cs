@@ -49,14 +49,13 @@ namespace libsignal.state.impl
 
         public bool SaveIdentity(SignalProtocolAddress address, IdentityKey identityKey)
         {
-            identityKeyStore.SaveIdentity(address, identityKey);
-            return true;
+            return identityKeyStore.SaveIdentity(address, identityKey);
         }
 
 
-        public bool IsTrustedIdentity(SignalProtocolAddress address, IdentityKey identityKey)
+        public bool IsTrustedIdentity(SignalProtocolAddress address, IdentityKey identityKey, Direction direction)
         {
-            return identityKeyStore.IsTrustedIdentity(address, identityKey);
+            return identityKeyStore.IsTrustedIdentity(address, identityKey, direction);
         }
 
 

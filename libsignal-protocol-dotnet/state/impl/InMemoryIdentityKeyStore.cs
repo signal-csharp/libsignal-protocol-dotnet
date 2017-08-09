@@ -53,11 +53,21 @@ namespace libsignal.state.impl
 
 		public bool SaveIdentity(SignalProtocolAddress address, IdentityKey identityKey)
 		{
-			trustedKeys[address] = identityKey; //put
-			return true;
+            IdentityKey existing;
+            trustedKeys.TryGetValue(address, out existing);
+
+            if (!identityKey.Equals(existing))
+            {
+                trustedKeys[address] = identityKey;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
 		}
 
-		public bool IsTrustedIdentity(SignalProtocolAddress address, IdentityKey identityKey)
+		public bool IsTrustedIdentity(SignalProtocolAddress address, IdentityKey identityKey, Direction direction)
 		{
 			IdentityKey trusted;
 			trustedKeys.TryGetValue(address, out trusted); // get(name)

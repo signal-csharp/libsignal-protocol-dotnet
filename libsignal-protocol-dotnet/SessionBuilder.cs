@@ -36,7 +36,6 @@ namespace libsignal
  * <ol>
  *   <li>A {@link org.whispersystems.libsignal.state.PreKeyBundle} retrieved from a server.</li>
  *   <li>A {@link PreKeySignalMessage} received from a client.</li>
- *   <li>A {@link KeyExchangeMessage} sent to or received from a client.</li>
  * </ol>
  *
  * Sessions are constructed per recipientId + deviceId tuple.  Remote logical users are identified
@@ -104,14 +103,17 @@ namespace libsignal
             uint messageVersion = message.getMessageVersion();
             IdentityKey theirIdentityKey = message.getIdentityKey();
 
-            if (!identityKeyStore.IsTrustedIdentity(remoteAddress, theirIdentityKey))
+            if (!identityKeyStore.IsTrustedIdentity(remoteAddress, theirIdentityKey, Direction.RECEIVING))
             {
                 throw new UntrustedIdentityException(remoteAddress.Name, theirIdentityKey);
             }
 
             May<uint> unsignedPreKeyId = processV3(sessionRecord, message);
 
-            identityKeyStore.SaveIdentity(remoteAddress, theirIdentityKey);
+            if (identityKeyStore.SaveIdentity(remoteAddress, theirIdentityKey))
+            {
+                sessionRecord.RemovePreviousSessionStates();
+            }
             return unsignedPreKeyId;
         }
 
@@ -176,7 +178,7 @@ namespace libsignal
         {
             lock (SessionCipher.SESSION_LOCK)
             {
-                if (!identityKeyStore.IsTrustedIdentity(remoteAddress, preKey.getIdentityKey()))
+                if (!identityKeyStore.IsTrustedIdentity(remoteAddress, preKey.getIdentityKey(), Direction.SENDING))
                 {
                     throw new UntrustedIdentityException(remoteAddress.Name, preKey.getIdentityKey());
                 }
@@ -220,8 +222,12 @@ namespace libsignal
                 sessionRecord.getSessionState().setRemoteRegistrationId(preKey.getRegistrationId());
                 sessionRecord.getSessionState().setAliceBaseKey(ourBaseKey.getPublicKey().serialize());
 
+                if (identityKeyStore.SaveIdentity(remoteAddress, preKey.getIdentityKey()))
+                {
+                    sessionRecord.RemovePreviousSessionStates();
+                }
+
                 sessionStore.StoreSession(remoteAddress, sessionRecord);
-                identityKeyStore.SaveIdentity(remoteAddress, preKey.getIdentityKey());
             }
         }
     }

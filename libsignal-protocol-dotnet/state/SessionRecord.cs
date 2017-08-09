@@ -65,6 +65,10 @@ namespace libsignal.state
             return previousStates;
         }
 
+        public void RemovePreviousSessionStates()
+        {
+            previousStates.Clear();
+        }
 
         public bool isFresh()
         {
