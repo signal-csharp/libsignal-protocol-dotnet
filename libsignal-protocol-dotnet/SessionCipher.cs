@@ -173,11 +173,6 @@ namespace libsignal
                 May<uint> unsignedPreKeyId = sessionBuilder.process(sessionRecord, ciphertext);
                 byte[] plaintext = decrypt(sessionRecord, ciphertext.getSignalMessage());
 
-                if (!identityKeyStore.IsTrustedIdentity(remoteAddress, sessionRecord.getSessionState().getRemoteIdentityKey(), Direction.RECEIVING))
-                {
-                    throw new UntrustedIdentityException(remoteAddress.Name, sessionRecord.getSessionState().getRemoteIdentityKey());
-                }
-
                 identityKeyStore.SaveIdentity(remoteAddress, sessionRecord.getSessionState().getRemoteIdentityKey());
 
                 callback.handlePlaintext(plaintext);
@@ -240,6 +235,11 @@ namespace libsignal
 
                 SessionRecord sessionRecord = sessionStore.LoadSession(remoteAddress);
                 byte[] plaintext = decrypt(sessionRecord, ciphertext);
+
+                if (!identityKeyStore.IsTrustedIdentity(remoteAddress, sessionRecord.getSessionState().getRemoteIdentityKey(), Direction.RECEIVING))
+                {
+                    throw new UntrustedIdentityException(remoteAddress.Name, sessionRecord.getSessionState().getRemoteIdentityKey());
+                }
 
                 callback.handlePlaintext(plaintext);
 
