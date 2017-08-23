@@ -11,6 +11,4 @@ The U.S. Government Department of Commerce, Bureau of Industry and Security (BIS
 
 ## License
 
-Copyright 2013-2016 Open Whisper Systems
-
 Licensed under the GPLv3: http://www.gnu.org/licenses/gpl-3.0.html
