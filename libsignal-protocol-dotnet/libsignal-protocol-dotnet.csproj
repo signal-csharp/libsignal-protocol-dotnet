@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="curve25519-dotnet" Version="1.3.2" />
-    <PackageReference Include="Google.Protobuf" Version="3.3.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.4.1" />
     <PackageReference Include="May-dotnet" Version="1.2.3" />
     <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.0" />
   </ItemGroup>
