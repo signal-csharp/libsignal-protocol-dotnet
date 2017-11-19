@@ -213,7 +213,7 @@ namespace libsignal.state
             };
             this.sessionStructure.ReceiverChains.Add(chain);
 
-			if (this.sessionStructure.ReceiverChains.Count > 5)
+			while (this.sessionStructure.ReceiverChains.Count > 5)
 			{
                 this.sessionStructure.ReceiverChains.RemoveAt(0); //TODO why was here a TODO?
 			}
