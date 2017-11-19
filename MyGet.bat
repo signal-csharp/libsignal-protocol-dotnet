@@ -1,6 +1,5 @@
 dotnet clean
 dotnet restore
-nuget restore
 dotnet build
+dotnet test libsignal-protocol-dotnet-tests\libsignal-protocol-dotnet-tests.csproj
 dotnet pack --include-symbols --include-source
-rem dotnet test

@@ -1,11 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "libsignal-protocol-dotnet", "libsignal-protocol-dotnet\libsignal-protocol-dotnet.csproj", "{A2C21AB2-85D2-432F-BE51-C9D1B6CDDEC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libsignal-protocol-dotnet-tests", "libsignal-protocol-dotnet-tests\libsignal-protocol-dotnet-tests.csproj", "{3CF22022-2321-4EEE-A580-F51A8CF0B716}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "libsignal-protocol-dotnet-tests", "libsignal-protocol-dotnet-tests\libsignal-protocol-dotnet-tests.csproj", "{9FB6BFAF-5AC0-4E7B-BB5D-546EBFC3A7BA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A2C21AB2-85D2-432F-BE51-C9D1B6CDDEC8} = {A2C21AB2-85D2-432F-BE51-C9D1B6CDDEC8}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +20,15 @@ Global
 		{A2C21AB2-85D2-432F-BE51-C9D1B6CDDEC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2C21AB2-85D2-432F-BE51-C9D1B6CDDEC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2C21AB2-85D2-432F-BE51-C9D1B6CDDEC8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3CF22022-2321-4EEE-A580-F51A8CF0B716}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3CF22022-2321-4EEE-A580-F51A8CF0B716}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3CF22022-2321-4EEE-A580-F51A8CF0B716}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3CF22022-2321-4EEE-A580-F51A8CF0B716}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FB6BFAF-5AC0-4E7B-BB5D-546EBFC3A7BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FB6BFAF-5AC0-4E7B-BB5D-546EBFC3A7BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FB6BFAF-5AC0-4E7B-BB5D-546EBFC3A7BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FB6BFAF-5AC0-4E7B-BB5D-546EBFC3A7BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9099DF24-10C9-4A53-8B7E-62F1A224F26A}
 	EndGlobalSection
 EndGlobal
