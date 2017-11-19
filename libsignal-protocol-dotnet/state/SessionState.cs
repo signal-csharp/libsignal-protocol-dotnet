@@ -312,8 +312,8 @@ namespace libsignal.state
             chain.MessageKeys.Clear();
             chain.MessageKeys.AddRange(messageKeyList);
 
-            this.sessionStructure.ReceiverChains.Insert((int)chainAndIndex.second(), chain);
-			return result;
+            sessionStructure.ReceiverChains[(int)chainAndIndex.second()] = chain;
+            return result;
 		}
 
 		public void setMessageKeys(ECPublicKey senderEphemeral, MessageKeys messageKeys)
@@ -334,8 +334,8 @@ namespace libsignal.state
                 chain.MessageKeys.RemoveAt(0);
 			}
 
-            this.sessionStructure.ReceiverChains.Insert((int)chainAndIndex.second(), chain);
-		}
+            sessionStructure.ReceiverChains[(int)chainAndIndex.second()] = chain;
+        }
 
 		public void setReceiverChainKey(ECPublicKey senderEphemeral, ChainKey chainKey)
 		{
@@ -350,8 +350,8 @@ namespace libsignal.state
 
             chain.ChainKey = chainKeyStructure;
 
-            this.sessionStructure.ReceiverChains.Insert((int)chainAndIndex.second(), chain);
-		}
+            sessionStructure.ReceiverChains[(int) chainAndIndex.second()] = chain;
+        }
 
 		public void setPendingKeyExchange(uint sequence,
 										  ECKeyPair ourBaseKey,
