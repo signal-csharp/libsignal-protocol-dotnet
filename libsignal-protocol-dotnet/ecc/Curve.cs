@@ -36,11 +36,20 @@ namespace libsignal.ecc
 
         public static ECPublicKey decodePoint(byte[] bytes, int offset)
         {
+            if (bytes.Length - offset < 1)
+            {
+                throw new InvalidKeyException("No key type identifier");
+            }
             int type = bytes[offset] & 0xFF;
 
             switch (type)
             {
                 case Curve.DJB_TYPE:
+                    if (bytes.Length - offset < 33)
+                    {
+                        throw new InvalidKeyException("Bad key length: " + bytes.Length);
+                    }
+
                     byte[] keyBytes = new byte[32];
                     System.Buffer.BlockCopy(bytes, offset + 1, keyBytes, 0, keyBytes.Length);
                     return new DjbECPublicKey(keyBytes);

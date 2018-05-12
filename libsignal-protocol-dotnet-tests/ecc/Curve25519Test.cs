@@ -1,23 +1,7 @@
-﻿/** 
- * Copyright (C) 2016 langboost
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-using libsignal;
+﻿using libsignal;
 using libsignal.ecc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace libsignal_test
 {
@@ -185,6 +169,59 @@ namespace libsignal_test
                     Assert.Fail("Sig verification succeeded!");
                 }
             }
+        }
+
+        public void TestDecodeSize()
+        {
+            ECKeyPair keyPair = Curve.generateKeyPair();
+            byte[] serializedPublic = keyPair.getPublicKey().serialize();
+
+            ECPublicKey justRight = Curve.decodePoint(serializedPublic, 0);
+
+            try
+            {
+                ECPublicKey tooSmall = Curve.decodePoint(serializedPublic, 1);
+                Assert.Fail("Shouldn't decode");
+            }
+            catch (InvalidKeyException e)
+            {
+                // good
+            }
+
+            try
+            {
+                ECPublicKey empty = Curve.decodePoint(new byte[0], 0);
+                Assert.Fail("Shouldn't parse");
+            }
+            catch (InvalidKeyException e)
+            {
+                // good
+            }
+
+            try
+            {
+                byte[] badKeyType = new byte[33];
+                Array.Copy(serializedPublic, 0, badKeyType, 0, serializedPublic.Length);
+                badKeyType[0] = 0x01;
+                Curve.decodePoint(badKeyType, 0);
+                Assert.Fail("Should be bad key type");
+            }
+            catch (InvalidKeyException e)
+            {
+                // good
+            }
+
+            byte[] extraSpace = new byte[serializedPublic.Length + 1];
+            Array.Copy(serializedPublic, 0, extraSpace, 0, serializedPublic.Length);
+            ECPublicKey extra = Curve.decodePoint(extraSpace, 0);
+
+            byte[] offsetSpace = new byte[serializedPublic.Length + 1];
+            Array.Copy(serializedPublic, 0, offsetSpace, 1, serializedPublic.Length);
+            ECPublicKey offset = Curve.decodePoint(offsetSpace, 1);
+
+            CollectionAssert.AreEqual(serializedPublic, justRight.serialize());
+            CollectionAssert.AreEqual(extra.serialize(), serializedPublic);
+            CollectionAssert.AreEqual(offset.serialize(), serializedPublic);
         }
 
         [TestMethod, TestCategory("libsignal.ecc")]
