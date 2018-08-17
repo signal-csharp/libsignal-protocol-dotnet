@@ -10,6 +10,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "libsignal-protocol-dotnet-t
 		{A2C21AB2-85D2-432F-BE51-C9D1B6CDDEC8} = {A2C21AB2-85D2-432F-BE51-C9D1B6CDDEC8}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7E21BCAD-AC11-47F0-9582-347E670BA23F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

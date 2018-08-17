@@ -1,5 +1,37 @@
-﻿root = true
-
-[*]
+﻿# To learn more about .editorconfig see https://aka.ms/editorconfigdocs
+############################### 
+# Core EditorConfig Options   # 
+############################### 
+root = true 
+# All files 
+[*] 
+indent_style = space
 end_of_line = crlf
 indent_size = 4
+
+# Code files 
+[*.{cs,csx,vb,vbx}] 
+insert_final_newline = true 
+charset = utf-8
+############################### 
+# .NET Coding Conventions     # 
+############################### 
+[*.{cs,vb}] 
+# Organize usings 
+dotnet_sort_system_directives_first = true 
+############################### 
+# C# Formatting Rules         # 
+############################### 
+# New line preferences 
+csharp_new_line_before_open_brace = all 
+csharp_new_line_before_else = true 
+csharp_new_line_before_catch = true 
+csharp_new_line_before_finally = true 
+csharp_new_line_before_members_in_object_initializers = true 
+csharp_new_line_before_members_in_anonymous_types = true 
+csharp_new_line_between_query_expression_clauses = true 
+# Indentation preferences 
+csharp_indent_case_contents = true 
+csharp_indent_switch_labels = true 
+csharp_indent_labels = flush_left 
+csharp_space_around_binary_operators = ignore
