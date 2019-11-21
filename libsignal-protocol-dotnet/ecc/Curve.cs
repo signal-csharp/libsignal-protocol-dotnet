@@ -1,4 +1,4 @@
-﻿/** 
+/** 
  * Copyright (C) 2017 smndtrl, langboost, golf1052
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,7 @@ namespace libsignal.ecc
 
         public static ECPublicKey decodePoint(byte[] bytes, int offset)
         {
-            if (bytes.Length - offset < 1)
+            if (bytes == null || bytes.Length - offset < 1)
             {
                 throw new InvalidKeyException("No key type identifier");
             }
@@ -65,6 +65,16 @@ namespace libsignal.ecc
 
         public static byte[] calculateAgreement(ECPublicKey publicKey, ECPrivateKey privateKey)
         {
+            if (publicKey == null)
+            {
+                throw new InvalidKeyException("public value is null");
+            }
+
+            if (privateKey == null)
+            {
+                throw new InvalidKeyException("private value is null");
+            }
+
             if (publicKey.getType() != privateKey.getType())
             {
                 throw new InvalidKeyException("Public and private keys must be of the same type!");
@@ -84,6 +94,11 @@ namespace libsignal.ecc
 
         public static bool verifySignature(ECPublicKey signingKey, byte[] message, byte[] signature)
         {
+            if (signingKey == null || message == null || signature == null)
+            {
+                throw new InvalidKeyException("Values must not be null");
+            }
+
             if (signingKey.getType() == DJB_TYPE)
             {
                 return Curve25519.getInstance(Curve25519ProviderType.BEST)
@@ -97,6 +112,11 @@ namespace libsignal.ecc
 
         public static byte[] calculateSignature(ECPrivateKey signingKey, byte[] message)
         {
+            if (signingKey == null || message == null)
+            {
+                throw new InvalidKeyException("Values must not be null");
+            }
+
             if (signingKey.getType() == DJB_TYPE)
             {
                 return Curve25519.getInstance(Curve25519ProviderType.BEST)
@@ -110,6 +130,11 @@ namespace libsignal.ecc
 
         public static byte[] calculateVrfSignature(ECPrivateKey signingKey, byte[] message)
         {
+            if (signingKey == null || message == null)
+            {
+                throw new InvalidKeyException("Values must not be null");
+            }
+
             if (signingKey.getType() == DJB_TYPE)
             {
                 return Curve25519.getInstance(Curve25519ProviderType.BEST)
@@ -123,6 +148,11 @@ namespace libsignal.ecc
 
         public static byte[] verifyVrfSignature(ECPublicKey signingKey, byte[] message, byte[] signature)
         {
+            if (signingKey == null || message == null || signature == null)
+            {
+                throw new InvalidKeyException("Values must not be null");
+            }
+
             if (signingKey.getType() == DJB_TYPE)
             {
                 return Curve25519.getInstance(Curve25519ProviderType.BEST)

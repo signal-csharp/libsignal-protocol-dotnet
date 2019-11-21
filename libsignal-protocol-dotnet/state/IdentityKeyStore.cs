@@ -1,4 +1,4 @@
-﻿/** 
+/** 
  * Copyright (C) 2016 smndtrl, langboost
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -81,6 +81,13 @@ namespace libsignal.state
          * @return true if trusted, false if untrusted.
          */
         bool IsTrustedIdentity(SignalProtocolAddress address, IdentityKey identityKey, Direction direction);
+
+        /// <summary>
+        /// Return the saved public identity key for a remote client
+        /// </summary>
+        /// <param name="address">The address of the remote client</param>
+        /// <returns>The public identity key, or null if absent</returns>
+        IdentityKey GetIdentity(SignalProtocolAddress address);
 
     }
 }

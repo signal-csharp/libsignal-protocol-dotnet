@@ -1,4 +1,4 @@
-﻿/** 
+/** 
  * Copyright (C) 2016 smndtrl, langboost
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -72,6 +72,12 @@ namespace libsignal.state.impl
             IdentityKey trusted;
             trustedKeys.TryGetValue(address, out trusted); // get(name)
             return (trusted == null || trusted.Equals(identityKey));
+        }
+
+        public IdentityKey GetIdentity(SignalProtocolAddress address)
+        {
+            trustedKeys.TryGetValue(address, out var identity);
+            return identity;
         }
     }
 }

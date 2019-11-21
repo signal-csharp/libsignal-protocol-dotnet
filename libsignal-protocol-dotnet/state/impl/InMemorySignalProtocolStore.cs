@@ -1,4 +1,4 @@
-﻿/** 
+/** 
  * Copyright (C) 2016 smndtrl, langboost
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -146,6 +146,11 @@ namespace libsignal.state.impl
         public void RemoveSignedPreKey(uint signedPreKeyId)
         {
             signedPreKeyStore.RemoveSignedPreKey(signedPreKeyId);
+        }
+
+        public IdentityKey GetIdentity(SignalProtocolAddress address)
+        {
+            return identityKeyStore.GetIdentity(address);
         }
     }
 }
