@@ -13,7 +13,15 @@
     <Description>An unofficial .NETStandard signal protocol library</Description>
     <RepositoryUrl>https://github.com/signal-csharp/libsignal-protocol-dotnet</RepositoryUrl>
     <PackageTags>signal libsignal libsignal-protocol libsignal-protocol-dotnet</PackageTags>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="curve25519-dotnet" Version="1.3.2" />
