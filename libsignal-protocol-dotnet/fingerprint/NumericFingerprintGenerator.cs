@@ -75,7 +75,7 @@ namespace org.whispersystems.libsignal.fingerprint
         }
 
         /// <summary>
-        /// Generate a scannable and displayble fingerprint for logical identities that have multiple physical keys.
+        /// Generate a scannable and displayable fingerprint for logical identities that have multiple physical keys.
         /// 
         /// Do not trust the output of this unless you've been through the device consistency process for the provided
         /// localIdentityKeys.

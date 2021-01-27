@@ -60,7 +60,7 @@ namespace org.whispersystems.libsignal.fingerprint
          * Compare a scanned QR code with what we expect.
          *
          * @param scannedFingerprintData The scanned data
-         * @return True if matching, otehrwise false.
+         * @return True if matching, otherwise false.
          * @throws FingerprintVersionMismatchException if the scanned fingerprint is the wrong version.
          * @throws FingerprintIdentifierMismatchException if the scanned fingerprint is for the wrong stable identifier.
          */

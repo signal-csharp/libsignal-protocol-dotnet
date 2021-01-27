@@ -39,7 +39,7 @@
         }
 
         /**
-         * @return A scannable fingerprint that can be scanned anc compared locally.
+         * @return A scannable fingerprint that can be scanned and compared locally.
          */
         public ScannableFingerprint getScannableFingerprint()
         {
