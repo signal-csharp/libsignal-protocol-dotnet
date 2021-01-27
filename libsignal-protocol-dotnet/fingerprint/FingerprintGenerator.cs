@@ -21,10 +21,16 @@ using libsignal;
 namespace org.whispersystems.libsignal.fingerprint
 {
     public interface FingerprintGenerator {
-        Fingerprint createFor(string localStableIdentifier, IdentityKey localIdentityKey,
-                                     string remoteStableIdentifier, IdentityKey remoteIdentityKey);
+        Fingerprint createFor(int version,
+            byte[] localStableIdentifier,
+            IdentityKey localIdentityKey,
+            byte[] remoteStableIdentifier,
+            IdentityKey remoteIdentityKey);
 
-        Fingerprint createFor(string localStableIdentifier, List<IdentityKey> localIdentityKey,
-            string remoteStableIdentifier, List<IdentityKey> remoteIdentityKey);
+        Fingerprint createFor(int version,
+            byte[] localStableIdentifier,
+            List<IdentityKey> localIdentityKey,
+            byte[] remoteStableIdentifier,
+            List<IdentityKey> remoteIdentityKey);
     }
 }

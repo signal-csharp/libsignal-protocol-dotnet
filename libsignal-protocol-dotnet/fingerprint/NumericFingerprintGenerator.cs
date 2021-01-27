@@ -15,14 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using libsignal;
-using libsignal.util;
 using System;
-using System.Diagnostics;
-using System.Text;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
+using libsignal;
+using libsignal.util;
 
 namespace org.whispersystems.libsignal.fingerprint
 {
@@ -53,59 +52,66 @@ namespace org.whispersystems.libsignal.fingerprint
 
         public object MessageDigest { get; private set; }
 
-        /**
-         * Generate a scannable and displayble fingerprint.
-         *
-         * @param localStableIdentifier The client's "stable" identifier.
-         * @param localIdentityKey The client's identity key.
-         * @param remoteStableIdentifier The remote party's "stable" identifier.
-         * @param remoteIdentityKey The remote party's identity key.
-         * @return A unique fingerprint for this conversation.
-         */
-
-        public Fingerprint createFor(string localStableIdentifier, IdentityKey localIdentityKey,
-                               string remoteStableIdentifier, IdentityKey remoteIdentityKey)
+        /// <summary>
+        /// Generate a scannable and displayable fingerprint.
+        /// </summary>
+        /// <param name="version">The version of fingerprint you are generating.</param>
+        /// <param name="localStableIdentifier">The client's "stable" identifier.</param>
+        /// <param name="localIdentityKey">The client's identity key.</param>
+        /// <param name="remoteStableIdentifier">The remote party's "stable" identifier.</param>
+        /// <param name="remoteIdentityKey">The remote party's identity key.</param>
+        /// <returns>A unique fingerprint for this conversation.</returns>
+        public Fingerprint createFor(int version,
+            byte[] localStableIdentifier,
+            IdentityKey localIdentityKey,
+            byte[] remoteStableIdentifier,
+            IdentityKey remoteIdentityKey)
         {
-            return createFor(localStableIdentifier,
+            return createFor(version,
+                localStableIdentifier,
                 new List<IdentityKey>(new[] { localIdentityKey }),
                 remoteStableIdentifier,
                 new List<IdentityKey>(new[] { remoteIdentityKey }));
         }
 
-        /**
-        * Generate a scannable and displayble fingerprint for logical identities that have multiple
-        * physical keys.
-        *
-        * Do not trust the output of this unless you've been through the device consistency process
-        * for the provided localIdentityKeys.
-        *
-        * @param localStableIdentifier The client's "stable" identifier.
-        * @param localIdentityKeys The client's collection of physical identity keys.
-        * @param remoteStableIdentifier The remote party's "stable" identifier.
-        * @param remoteIdentityKeys The remote party's collection of physical identity key.
-        * @return A unique fingerprint for this conversation.
-        */
-        public Fingerprint createFor(string localStableIdentifier, List<IdentityKey> localIdentityKeys,
-            string remoteStableIdentifier, List<IdentityKey> remoteIdentityKeys)
+        /// <summary>
+        /// Generate a scannable and displayble fingerprint for logical identities that have multiple physical keys.
+        /// 
+        /// Do not trust the output of this unless you've been through the device consistency process for the provided
+        /// localIdentityKeys.
+        /// </summary>
+        /// <param name="version">The version of fingerprint you are generating.</param>
+        /// <param name="localStableIdentifier">The client's "stable" identifier.</param>
+        /// <param name="localIdentityKeys">The client's collection of physical identity keys.</param>
+        /// <param name="remoteStableIdentifier">The remote party's "stable" identifier.</param>
+        /// <param name="remoteIdentityKeys">The remote party's collection of physical identity key.</param>
+        /// <returns>A unique fingerprint for this conversation.</returns>
+        public Fingerprint createFor(int version,
+            byte[] localStableIdentifier,
+            List<IdentityKey> localIdentityKeys,
+            byte[] remoteStableIdentifier,
+            List<IdentityKey> remoteIdentityKeys)
         {
             byte[] localFingerprint = getFingerprint(iterations, localStableIdentifier, localIdentityKeys);
             byte[] remoteFingerprint = getFingerprint(iterations, remoteStableIdentifier, remoteIdentityKeys);
 
-            DisplayableFingerprint displayableFingerprint = new DisplayableFingerprint(localFingerprint, remoteFingerprint);
+            DisplayableFingerprint displayableFingerprint = new DisplayableFingerprint(localFingerprint,
+                remoteFingerprint);
 
-            ScannableFingerprint scannableFingerprint = new ScannableFingerprint(localFingerprint, remoteFingerprint);
+            ScannableFingerprint scannableFingerprint = new ScannableFingerprint(version,
+                localFingerprint, remoteFingerprint);
 
             return new Fingerprint(displayableFingerprint, scannableFingerprint);
         }
 
-        private byte[] getFingerprint(int iterations, string stableIdentifier, List<IdentityKey> unsortedIdentityKeys)
+        private byte[] getFingerprint(int iterations, byte[] stableIdentifier, List<IdentityKey> unsortedIdentityKeys)
         {
             try
             {
                 SHA512 digest = SHA512.Create();
                 byte[] publicKey = getLogicalKeyBytes(unsortedIdentityKeys);
                 byte[] hash = ByteUtil.combine(ByteUtil.shortToByteArray(FINGERPRINT_VERSION),
-                    publicKey, Encoding.UTF8.GetBytes(stableIdentifier));
+                    publicKey, stableIdentifier);
 
                 for (int i = 0; i < iterations; i++)
                 {

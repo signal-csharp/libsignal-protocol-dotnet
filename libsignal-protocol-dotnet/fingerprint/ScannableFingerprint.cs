@@ -16,23 +16,18 @@
  */
 
 
-using libsignal;
-using libsignal.util;
-using System;
-using System.Diagnostics;
-using libsignal.fingerprint;
 using Google.Protobuf;
+using libsignal.fingerprint;
+using libsignal.util;
 
 namespace org.whispersystems.libsignal.fingerprint
 {
-
     public class ScannableFingerprint
     {
-        private static readonly int VERSION = 0;
-
+        private readonly int version;
         private readonly CombinedFingerprints fingerprints;
 
-        internal ScannableFingerprint(byte[] localFingerprintData, byte[] remoteFingerprintData)
+        internal ScannableFingerprint(int version, byte[] localFingerprintData, byte[] remoteFingerprintData)
         {
             LogicalFingerprint localFingerprint = new LogicalFingerprint
             {
@@ -44,9 +39,10 @@ namespace org.whispersystems.libsignal.fingerprint
                 Content = ByteString.CopyFrom(ByteUtil.trim(remoteFingerprintData, 32))
             };
 
+            this.version = version;
             this.fingerprints = new CombinedFingerprints
             {
-                Version = (uint)VERSION,
+                Version = (uint)version,
                 LocalFingerprint = localFingerprint,
                 RemoteFingerprint = remoteFingerprint
             };
@@ -80,9 +76,9 @@ namespace org.whispersystems.libsignal.fingerprint
                 if (scanned.RemoteFingerprintOneofCase == CombinedFingerprints.RemoteFingerprintOneofOneofCase.None ||
                     scanned.LocalFingerprintOneofCase == CombinedFingerprints.LocalFingerprintOneofOneofCase.None ||
                     scanned.VersionOneofCase == CombinedFingerprints.VersionOneofOneofCase.None ||
-                    scanned.Version != fingerprints.Version)
+                    scanned.Version != version)
                 {
-                    throw new FingerprintVersionMismatchException((int)scanned.Version, VERSION);
+                    throw new FingerprintVersionMismatchException((int)scanned.Version, version);
                 }
 
                 return ByteUtil.isEqual(fingerprints.LocalFingerprint.Content.ToByteArray(), scanned.RemoteFingerprint.Content.ToByteArray()) &&
