@@ -1,4 +1,4 @@
-﻿/** 
+/** 
  * Copyright (C) 2016 smndtrl, langboost
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -20,64 +20,55 @@ using System.Collections.Generic;
 
 namespace libsignal.state
 {
-    /**
-     * The interface to the durable store of session state information
-     * for remote clients.
-     *
-     * @author
-     */
+    /// <summary>
+    /// The interface to the durable store of session state information for remote clients.
+    /// </summary>
     public interface SessionStore
     {
-
-        /**
-         * Returns a copy of the {@link SessionRecord} corresponding to the recipientId + deviceId tuple,
-         * or a new SessionRecord if one does not currently exist.
-         * <p>
-         * It is important that implementations return a copy of the current durable information.  The
-         * returned SessionRecord may be modified, but those changes should not have an effect on the
-         * durable session state (what is returned by subsequent calls to this method) without the
-         * store method being called here first.
-         *
-         * @param address The name and device ID of the remote client.
-         * @return a copy of the SessionRecord corresponding to the recipientId + deviceId tuple, or
-         *         a new SessionRecord if one does not currently exist.
-         */
+        /// <summary>
+        /// Returns a copy of the <see cref="SessionRecord"/> corresponding to the recipientId + deviceId tuple, or a
+        /// new SessionRecord if one does not currently exist.
+        /// 
+        /// It is important that implementations return a copy of the current durable information. The returned
+        /// SessionRecord may be modified, but those changes should not have an effect on the durable session state
+        /// (what is returned by subsequent calls to this method) without the store method being called here first.
+        /// </summary>
+        /// <param name="address">The name and device ID of the remote client.</param>
+        /// <returns>a copy of the SessionRecord corresponding to the recipientId + deviceId tuple, or a new
+        /// SessionRecord if one does not currently exist.</returns>
         SessionRecord LoadSession(SignalProtocolAddress address);
 
-        /**
-         * Returns all known devices with active sessions for a recipient
-         *
-         * @param name the name of the client.
-         * @return all known sub-devices with active sessions.
-         */
+        /// <summary>
+        /// Returns all known devices with active sessions for a recipient
+        /// </summary>
+        /// <param name="name">the name of the client.</param>
+        /// <returns>all known sub-devices with active sessions.</returns>
         List<uint> GetSubDeviceSessions(String name);
 
-        /**
-         * Commit to storage the {@link SessionRecord} for a given recipientId + deviceId tuple.
-         * @param address the address of the remote client.
-         * @param record the current SessionRecord for the remote client.
-         */
+        /// <summary>
+        /// Commit to storage the <see cref="SessionRecord"/> for a given recipientId + deviceId tuple.
+        /// </summary>
+        /// <param name="address">the address of the remote client.</param>
+        /// <param name="record">the current SessionRecord for the remote client.</param>
         void StoreSession(SignalProtocolAddress address, SessionRecord record);
 
-        /**
-         * Determine whether there is a committed {@link SessionRecord} for a recipientId + deviceId tuple.
-         * @param address the address of the remote client.
-         * @return true if a {@link SessionRecord} exists, false otherwise.
-         */
-         bool ContainsSession(SignalProtocolAddress address);
+        /// <summary>
+        /// Determine whether there is a committed <see cref="SessionRecord"/> for a recipientId + deviceId tuple.
+        /// </summary>
+        /// <param name="address">the address of the remote client.</param>
+        /// <returns>true if a <see cref="SessionRecord"/> exists, false otherwise.</returns>
+        bool ContainsSession(SignalProtocolAddress address);
 
-        /**
-         * Remove a {@link SessionRecord} for a recipientId + deviceId tuple.
-         *
-         * @param address the address of the remote client.
-         */
-         void DeleteSession(SignalProtocolAddress address);
+        /// <summary>
+        /// Remove a <see cref="SessionRecord"/> for a recipientId + deviceId tuple.
+        /// </summary>
+        /// <param name="address">the address of the remote client.</param>
+        void DeleteSession(SignalProtocolAddress address);
 
-        /**
-         * Remove the {@link SessionRecord}s corresponding to all devices of a recipientId.
-         *
-         * @param name the name of the remote client.
-         */
+        /// <summary>
+        /// Remove the <see cref="SessionRecord"/>s corresponding to all devices of a recipientId.
+        /// </summary>
+        /// <param name="name">the name of the remote client.</param>
         void DeleteAllSessions(String name);
 
     }

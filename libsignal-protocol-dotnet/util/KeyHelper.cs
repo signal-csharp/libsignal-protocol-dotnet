@@ -1,4 +1,4 @@
-﻿/** 
+/** 
  * Copyright (C) 2016 smndtrl, langboost
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -15,30 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using libsignal.ecc;
-using libsignal.state;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using libsignal.ecc;
+using libsignal.state;
 
 namespace libsignal.util
 {
-    /**
-     * Helper class for generating keys of different types.
-     *
-     * @author Moxie Marlinspike
-     */
+    /// <summary>
+    /// Helper class for generating keys of different types.
+    /// </summary>
     public class KeyHelper
     {
-
         private KeyHelper() { }
 
-        /**
-         * Generate an identity key pair.  Clients should only do this once,
-         * at install time.
-         *
-         * @return the generated IdentityKeyPair.
-         */
+        /// <summary>
+        /// Generate an identity key pair. Clients should only do this once, at install time.
+        /// </summary>
+        /// <returns>the generated IdentityKeyPair.</returns>
         public static IdentityKeyPair generateIdentityKeyPair()
         {
             ECKeyPair keyPair = Curve.generateKeyPair();
@@ -46,17 +41,13 @@ namespace libsignal.util
             return new IdentityKeyPair(publicKey, keyPair.getPrivateKey());
         }
 
-        /**
-         * Generate a registration ID.  Clients should only do this once,
-         * at install time.
-         *
-         * @param extendedRange By default (false), the generated registration
-         *                      ID is sized to require the minimal possible protobuf
-         *                      encoding overhead. Specify true if the caller needs
-         *                      the full range of MAX_INT at the cost of slightly
-         *                      higher encoding overhead.
-         * @return the generated registration ID.
-         */
+        /// <summary>
+        /// Generate a registration ID.  Clients should only do this once, at install time.
+        /// </summary>
+        /// <param name="extendedRange">By default (false), the generated registration ID is sized to require the
+        /// minimal possible protobuf encoding overhead. Specify true if the caller needs the full range of MAX_INT at
+        /// the cost of slightly higher encoding overhead.</param>
+        /// <returns>the generated registration ID.</returns>
         public static uint generateRegistrationId(bool extendedRange)
         {
             if (extendedRange) return getRandomSequence(uint.MaxValue - 1) + 1;
@@ -73,18 +64,16 @@ namespace libsignal.util
             return BitConverter.ToUInt32(randomBytes, 0) % max;
         }
 
-        /**
-         * Generate a list of PreKeys.  Clients should do this at install time, and
-         * subsequently any time the list of PreKeys stored on the server runs low.
-         * <p>
-         * PreKey IDs are shorts, so they will eventually be repeated.  Clients should
-         * store PreKeys in a circular buffer, so that they are repeated as infrequently
-         * as possible.
-         *
-         * @param start The starting PreKey ID, inclusive.
-         * @param count The number of PreKeys to generate.
-         * @return the list of generated PreKeyRecords.
-         */
+        /// <summary>
+        /// Generate a list of PreKeys.  Clients should do this at install time, and subsequently any time the list of
+        /// PreKeys stored on the server runs low.
+        /// 
+        /// PreKey IDs are shorts, so they will eventually be repeated. Clients should store PreKeys in a circular
+        /// buffer, so that they are repeated as infrequently as possible.
+        /// </summary>
+        /// <param name="start">The starting PreKey ID, inclusive.</param>
+        /// <param name="count">The number of PreKeys to generate.</param>
+        /// <returns>the list of generated PreKeyRecords.</returns>
         public static IList<PreKeyRecord> generatePreKeys(uint start, uint count)
         {
             IList<PreKeyRecord> results = new List<PreKeyRecord>();
@@ -99,15 +88,13 @@ namespace libsignal.util
             return results;
         }
 
-        /**
-         * Generate a signed PreKey
-         *
-         * @param identityKeyPair The local client's identity key pair.
-         * @param signedPreKeyId The PreKey id to assign the generated signed PreKey
-         *
-         * @return the generated signed PreKey
-         * @throws InvalidKeyException when the provided identity key is invalid
-         */
+        /// <summary>
+        /// Generate a signed PreKey
+        /// </summary>
+        /// <param name="identityKeyPair">The local client's identity key pair.</param>
+        /// <param name="signedPreKeyId">The PreKey id to assign the generated signed PreKey</param>
+        /// <returns>the generated signed PreKey</returns>
+        /// <exception cref="InvalidKeyException">when the provided identity key is invalid</exception>
         public static SignedPreKeyRecord generateSignedPreKey(IdentityKeyPair identityKeyPair, uint signedPreKeyId)
         {
             ECKeyPair keyPair = Curve.generateKeyPair();

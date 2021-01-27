@@ -1,5 +1,3 @@
-﻿
-using Google.Protobuf;
 /** 
 * Copyright (C) 2016 smndtrl, langboost
 * 
@@ -16,19 +14,18 @@ using Google.Protobuf;
 * You should have received a copy of the GNU General Public License
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+using Google.Protobuf;
 using libsignal.ecc;
 using libsignal.state;
 
 namespace libsignal
 {
-    /**
-     * Holder for public and private identity key pair.
-     *
-     * @author
-     */
+    /// <summary>
+    /// Holder for public and private identity key pair.
+    /// </summary>
     public class IdentityKeyPair
     {
-
         private readonly IdentityKey publicKey;
         private readonly ECPrivateKey privateKey;
 

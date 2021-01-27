@@ -1,4 +1,4 @@
-﻿/** 
+/** 
  * Copyright (C) 2016 smndtrl, langboost
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -15,32 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System;
 using libsignal.groups.state;
 using libsignal.protocol;
 using libsignal.util;
-using System;
 
 namespace libsignal.groups
 {
-    /**
-     * GroupSessionBuilder is responsible for setting up group SenderKey encrypted sessions.
-     *
-     * Once a session has been established, {@link org.whispersystems.libsignal.groups.GroupCipher}
-     * can be used to encrypt/decrypt messages in that session.
-     * <p>
-     * The built sessions are unidirectional: they can be used either for sending or for receiving,
-     * but not both.
-     *
-     * Sessions are constructed per (groupId + senderId + deviceId) tuple.  Remote logical users
-     * are identified by their senderId, and each logical recipientId can have multiple physical
-     * devices.
-     *
-     * @author
-     */
-
+    /// <summary>
+    /// GroupSessionBuilder is responsible for setting up group SenderKey encrypted sessions.
+    /// 
+    /// Once a session has been established, <see cref="GroupCipher"/> can be used to encrypt/decrypt messages in that
+    /// session.
+    /// 
+    /// The built sessions are unidirectional: they can be used either for sending or for receiving, but not both.
+    /// 
+    /// Sessions are constructed per (groupId + senderId + deviceId) tuple. Remote logical users are identified by their
+    /// senderId, and each logical recipientId can have multiple physical devices.
+    /// </summary>
     public class GroupSessionBuilder
     {
-
         private readonly SenderKeyStore senderKeyStore;
 
         public GroupSessionBuilder(SenderKeyStore senderKeyStore)
@@ -48,12 +42,11 @@ namespace libsignal.groups
             this.senderKeyStore = senderKeyStore;
         }
 
-        /**
-         * Construct a group session for receiving messages from senderKeyName.
-         *
-         * @param senderKeyName The (groupId, senderId, deviceId) tuple associated with the SenderKeyDistributionMessage.
-         * @param senderKeyDistributionMessage A received SenderKeyDistributionMessage.
-         */
+        /// <summary>
+        /// Construct a group session for receiving messages from senderKeyName.
+        /// </summary>
+        /// <param name="senderKeyName">The (groupId, senderId, deviceId) tuple associated with the SenderKeyDistributionMessage.</param>
+        /// <param name="senderKeyDistributionMessage">A received SenderKeyDistributionMessage.</param>
         public void process(SenderKeyName senderKeyName, SenderKeyDistributionMessage senderKeyDistributionMessage)
         {
             lock (GroupCipher.LOCK)
@@ -67,12 +60,12 @@ namespace libsignal.groups
             }
         }
 
-        /**
-         * Construct a group session for sending messages.
-         *
-         * @param senderKeyName The (groupId, senderId, deviceId) tuple.  In this case, 'senderId' should be the caller.
-         * @return A SenderKeyDistributionMessage that is individually distributed to each member of the group.
-         */
+        /// <summary>
+        /// Construct a group session for sending messages.
+        /// </summary>
+        /// <param name="senderKeyName">The (groupId, senderId, deviceId) tuple. In this case, 'senderId' should be the
+        /// caller.</param>
+        /// <returns>A SenderKeyDistributionMessage that is individually distributed to each member of the group.</returns>
         public SenderKeyDistributionMessage create(SenderKeyName senderKeyName)
         {
             lock (GroupCipher.LOCK)
@@ -96,7 +89,6 @@ namespace libsignal.groups
                                                             state.getSenderChainKey().getIteration(),
                                                             state.getSenderChainKey().getSeed(),
                                                             state.getSigningKeyPublic());
-
                 }
                 catch (Exception e) when (e is InvalidKeyIdException || e is InvalidKeyException)
                 {

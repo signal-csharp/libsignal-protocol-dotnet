@@ -25,26 +25,22 @@ using libsignal.util;
 
 namespace org.whispersystems.libsignal.fingerprint
 {
-
     public class NumericFingerprintGenerator : FingerprintGenerator
     {
         private static readonly int FINGERPRINT_VERSION = 0;
 
         private readonly int iterations;
 
-        /**
-         * Construct a fingerprint generator for 60 digit numerics.
-         *
-         * @param iterations The number of internal iterations to perform in the process of
-         *                   generating a fingerprint. This needs to be constant, and synchronized
-         *                   across all clients.
-         *
-         *                   The higher the iteration count, the higher the security level:
-         *
-         *                   - 1024 ~ 109.7 bits
-         *                   - 1400 > 110 bits
-         *                   - 5200 > 112 bits
-         */
+        /// <summary>
+        /// Construct a fingerprint generator for 60 digit numerics.
+        /// </summary>
+        /// <param name="iterations">The number of internal iterations to perform in the process of generating a
+        /// fingerprint. This needs to be constant, and synchronized across all clients.
+        /// 
+        /// The higher the iteration count, the higher the security level:
+        /// - 1024 ~ 109.7 bits
+        /// - 1400 > 110 bits
+        /// - 5200 > 112 bits</param>
         public NumericFingerprintGenerator(int iterations)
         {
             this.iterations = iterations;
@@ -146,5 +142,4 @@ namespace org.whispersystems.libsignal.fingerprint
             return baos.ToArray();
         }
     }
-
 }

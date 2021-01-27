@@ -1,6 +1,3 @@
-﻿
-
-using Google.Protobuf;
 /** 
 * Copyright (C) 2016 smndtrl, langboost
 * 
@@ -17,15 +14,16 @@ using Google.Protobuf;
 * You should have received a copy of the GNU General Public License
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+using System;
+using Google.Protobuf;
 using libsignal.ecc;
 using libsignal.util;
-using System;
 
 namespace libsignal.protocol
 {
     public partial class SenderKeyMessage : CiphertextMessage
     {
-
         private static readonly int SIGNATURE_LENGTH = 64;
 
         private readonly uint messageVersion;

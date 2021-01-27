@@ -48,26 +48,23 @@ namespace org.whispersystems.libsignal.fingerprint
             };
         }
 
-        /**
-         * @return A byte string to be displayed in a QR code.
-         */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>A byte string to be displayed in a QR code.</returns>
         public byte[] getSerialized()
         {
             return fingerprints.ToByteArray();
         }
 
-        /**
-         * Compare a scanned QR code with what we expect.
-         *
-         * @param scannedFingerprintData The scanned data
-         * @return True if matching, otherwise false.
-         * @throws FingerprintVersionMismatchException if the scanned fingerprint is the wrong version.
-         * @throws FingerprintIdentifierMismatchException if the scanned fingerprint is for the wrong stable identifier.
-         */
+        /// <summary>
+        /// Compare a scanned QR code with what we expect.
+        /// </summary>
+        /// <param name="scannedFingerprintData">The scanned data</param>
+        /// <returns>True if matching, otherwise false.</returns>
+        /// <exception cref="FingerprintVersionMismatchException">if the scanned fingerprint is the wrong version.</exception>
+        /// <exception cref="FingerprintParsingException"></exception>
         public bool compareTo(byte[] scannedFingerprintData)
-        /* throws FingerprintVersionMismatchException,
-               FingerprintIdentifierMismatchException,
-               FingerprintParsingException */
         {
             try
             {

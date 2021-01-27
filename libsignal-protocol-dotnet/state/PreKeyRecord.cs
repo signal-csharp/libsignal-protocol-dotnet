@@ -1,5 +1,3 @@
-﻿
-using Google.Protobuf;
 /** 
 * Copyright (C) 2016 smndtrl, langboost
 * 
@@ -16,14 +14,15 @@ using Google.Protobuf;
 * You should have received a copy of the GNU General Public License
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-using libsignal.ecc;
+
 using System;
+using Google.Protobuf;
+using libsignal.ecc;
 
 namespace libsignal.state
 {
     public class PreKeyRecord
     {
-
         private PreKeyRecordStructure structure;
 
         public PreKeyRecord(uint id, ECKeyPair keyPair)
@@ -40,8 +39,6 @@ namespace libsignal.state
         {
             this.structure = PreKeyRecordStructure.Parser.ParseFrom(serialized);
         }
-
-
 
         public uint getId()
         {

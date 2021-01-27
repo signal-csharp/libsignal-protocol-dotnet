@@ -1,5 +1,3 @@
-﻿
-using Google.Protobuf;
 /** 
 * Copyright (C) 2016 smndtrl, langboost
 * 
@@ -16,17 +14,18 @@ using Google.Protobuf;
 * You should have received a copy of the GNU General Public License
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-using libsignal.ecc;
-using libsignal.util;
+
 using System;
 using System.IO;
 using System.Linq;
+using Google.Protobuf;
+using libsignal.ecc;
+using libsignal.util;
 
 namespace libsignal.protocol
 {
     public partial class SignalMessage : CiphertextMessage
     {
-
         private static readonly int MAC_LENGTH = 8;
 
         private readonly uint messageVersion;
@@ -56,11 +55,6 @@ namespace libsignal.protocol
                 }
 
                 SignalMessage signalMessage = SignalMessage.Parser.ParseFrom(message);
-
-
-
-
-
 
                 if (signalMessage.CiphertextOneofCase == CiphertextOneofOneofCase.None ||
                     signalMessage.CounterOneofCase == CounterOneofOneofCase.None ||
@@ -180,6 +174,5 @@ namespace libsignal.protocol
             return message != null && message.Length >= 1 &&
                 ByteUtil.highBitsToInt(message[0]) != CURRENT_VERSION;
         }
-
     }
 }

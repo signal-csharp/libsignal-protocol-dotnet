@@ -1,4 +1,4 @@
-﻿/** 
+/** 
  * Copyright (C) 2016 smndtrl, langboost
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -19,31 +19,24 @@ namespace libsignal.groups.state
 {
     public interface SenderKeyStore
     {
-
-        /**
-         * Commit to storage the {@link org.whispersystems.libsignal.groups.state.SenderKeyRecord} for a
-         * given (groupId + senderId + deviceId) tuple.
-         *
-         * @param senderKeyName the (groupId + senderId + deviceId) tuple.
-         * @param record the current SenderKeyRecord for the specified senderKeyName.
-         */
+        /// <summary>
+        /// Commit to storage the <see cref="SenderKeyRecord"/> for a given (groupId + senderId + deviceId) tuple.
+        /// </summary>
+        /// <param name="senderKeyName">the (groupId + senderId + deviceId) tuple.</param>
+        /// <param name="record">the current SenderKeyRecord for the specified senderKeyName.</param>
         void storeSenderKey(SenderKeyName senderKeyName, SenderKeyRecord record);
 
-        /**
-         * Returns a copy of the {@link org.whispersystems.libsignal.groups.state.SenderKeyRecord}
-         * corresponding to the (groupId + senderId + deviceId) tuple, or a new SenderKeyRecord if
-         * one does not currently exist.
-         * <p>
-         * It is important that implementations return a copy of the current durable information.  The
-         * returned SenderKeyRecord may be modified, but those changes should not have an effect on the
-         * durable session state (what is returned by subsequent calls to this method) without the
-         * store method being called here first.
-         *
-         * @param senderKeyName The (groupId + senderId + deviceId) tuple.
-         * @return a copy of the SenderKeyRecord corresponding to the (groupId + senderId + deviceId tuple, or
-         *         a new SenderKeyRecord if one does not currently exist.
-         */
-
+        /// <summary>
+        /// Returns a copy of the <see cref="SenderKeyRecord"/> corresponding to the (groupId + senderId + deviceId)
+        /// tuple, or a new SenderKeyRecord if one does not currently exist.
+        /// 
+        /// It is important that implementations return a copy of the current durable information. The returned
+        /// SenderKeyRecord may be modified, but those changes should not have an effect on the durable session state
+        /// (what is returned by subsequent calls to this method) without the store method being called here first.
+        /// </summary>
+        /// <param name="senderKeyName">The (groupId + senderId + deviceId) tuple.</param>
+        /// <returns>a copy of the SenderKeyRecord corresponding to the (groupId + senderId + deviceId tuple, or a new
+        /// SenderKeyRecord if one does not currently exist.</returns>
         SenderKeyRecord loadSenderKey(SenderKeyName senderKeyName);
     }
 }

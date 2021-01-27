@@ -1,5 +1,3 @@
-﻿
-using Google.Protobuf;
 /** 
 * Copyright (C) 2016 smndtrl, langboost
 * 
@@ -16,16 +14,17 @@ using Google.Protobuf;
 * You should have received a copy of the GNU General Public License
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+using System;
+using Google.Protobuf;
 using libsignal.ecc;
 using libsignal.util;
 using Strilanc.Value;
-using System;
 
 namespace libsignal.protocol
 {
     public partial class PreKeySignalMessage : CiphertextMessage
     {
-
         private readonly uint version;
         private readonly uint registrationId;
         private readonly May<uint> preKeyId;
@@ -153,6 +152,5 @@ namespace libsignal.protocol
         {
             return CiphertextMessage.PREKEY_TYPE;
         }
-
     }
 }

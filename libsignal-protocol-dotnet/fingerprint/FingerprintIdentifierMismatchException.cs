@@ -15,20 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
  
- using System;
+using System;
 
 namespace org.whispersystems.libsignal.fingerprint
 {
     public class FingerprintIdentifierMismatchException : Exception
     {
-
         private readonly string localIdentifier;
         private readonly string remoteIdentifier;
         private readonly string scannedLocalIdentifier;
         private readonly string scannedRemoteIdentifier;
 
         public FingerprintIdentifierMismatchException(string localIdentifier, string remoteIdentifier,
-                                                      string scannedLocalIdentifier, string scannedRemoteIdentifier)
+            string scannedLocalIdentifier, string scannedRemoteIdentifier)
         {
             this.localIdentifier = localIdentifier;
             this.remoteIdentifier = remoteIdentifier;

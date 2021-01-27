@@ -1,4 +1,4 @@
-﻿/** 
+/** 
  * Copyright (C) 2016 smndtrl, langboost
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -21,43 +21,38 @@ namespace libsignal.state
 {
     public interface SignedPreKeyStore
     {
-
-
-        /**
-         * Load a local SignedPreKeyRecord.
-         *
-         * @param signedPreKeyId the ID of the local SignedPreKeyRecord.
-         * @return the corresponding SignedPreKeyRecord.
-         * @throws InvalidKeyIdException when there is no corresponding SignedPreKeyRecord.
-         */
+        /// <summary>
+        /// Load a local SignedPreKeyRecord.
+        /// </summary>
+        /// <param name="signedPreKeyId">the ID of the local SignedPreKeyRecord.</param>
+        /// <returns>the corresponding SignedPreKeyRecord.</returns>
+        /// <exception cref="InvalidKeyIdException">when there is no corresponding SignedPreKeyRecord.</exception>
         SignedPreKeyRecord LoadSignedPreKey(uint signedPreKeyId);
 
-        /**
-         * Load all local SignedPreKeyRecords.
-         *
-         * @return All stored SignedPreKeyRecords.
-         */
+        /// <summary>
+        /// Load all local SignedPreKeyRecords.
+        /// </summary>
+        /// <returns>All stored SignedPreKeyRecords.</returns>
         List<SignedPreKeyRecord> LoadSignedPreKeys();
 
-        /**
-         * Store a local SignedPreKeyRecord.
-         *
-         * @param signedPreKeyId the ID of the SignedPreKeyRecord to store.
-         * @param record the SignedPreKeyRecord.
-         */
+        /// <summary>
+        /// Store a local SignedPreKeyRecord.
+        /// </summary>
+        /// <param name="signedPreKeyId">the ID of the SignedPreKeyRecord to store.</param>
+        /// <param name="record">the SignedPreKeyRecord.</param>
         void StoreSignedPreKey(uint signedPreKeyId, SignedPreKeyRecord record);
 
-        /**
-         * @param signedPreKeyId A SignedPreKeyRecord ID.
-         * @return true if the store has a record for the signedPreKeyId, otherwise false.
-         */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="signedPreKeyId">A SignedPreKeyRecord ID.</param>
+        /// <returns>true if the store has a record for the signedPreKeyId, otherwise false.</returns>
         bool ContainsSignedPreKey(uint signedPreKeyId);
 
-        /**
-         * Delete a SignedPreKeyRecord from local storage.
-         *
-         * @param signedPreKeyId The ID of the SignedPreKeyRecord to remove.
-         */
+        /// <summary>
+        /// Delete a SignedPreKeyRecord from local storage.
+        /// </summary>
+        /// <param name="signedPreKeyId">The ID of the SignedPreKeyRecord to remove.</param>
         void RemoveSignedPreKey(uint signedPreKeyId);
     }
 }

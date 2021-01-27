@@ -1,4 +1,4 @@
-﻿/** 
+/** 
  * Copyright (C) 2016 smndtrl, langboost
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -19,15 +19,11 @@ using libsignal.ecc;
 
 namespace libsignal.state
 {
-    /**
- * A class that contains a remote PreKey and collection
- * of associated items.
- *
- * @author Moxie Marlinspike
- */
+    /// <summary>
+    /// A class that contains a remote PreKey and collection of associated items.
+    /// </summary>
     public class PreKeyBundle
     {
-
         private uint registrationId;
 
         private uint deviceId;
@@ -55,65 +51,73 @@ namespace libsignal.state
             this.identityKey = identityKey;
         }
 
-        /**
-         * @return the device ID this PreKey belongs to.
-         */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>the device ID this PreKey belongs to.</returns>
         public uint getDeviceId()
         {
             return deviceId;
         }
 
-        /**
-         * @return the unique key ID for this PreKey.
-         */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>the unique key ID for this PreKey.</returns>
         public uint getPreKeyId()
         {
             return preKeyId;
         }
 
-        /**
-         * @return the public key for this PreKey.
-         */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>the public key for this PreKey.</returns>
         public ECPublicKey getPreKey()
         {
             return preKeyPublic;
         }
 
-        /**
-         * @return the unique key ID for this signed prekey.
-         */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>the unique key ID for this signed prekey.</returns>
         public uint getSignedPreKeyId()
         {
             return signedPreKeyId;
         }
 
-        /**
-         * @return the signed prekey for this PreKeyBundle.
-         */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>the signed prekey for this PreKeyBundle.</returns>
         public ECPublicKey getSignedPreKey()
         {
             return signedPreKeyPublic;
         }
 
-        /**
-         * @return the signature over the signed  prekey.
-         */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>the signature over the signed prekey.</returns>
         public byte[] getSignedPreKeySignature()
         {
             return signedPreKeySignature;
         }
 
-        /**
-         * @return the {@link org.whispersystems.libsignal.IdentityKey} of this PreKeys owner.
-         */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>the <see cref="IdentityKey"/> of this PreKeys owner.</returns>
         public IdentityKey getIdentityKey()
         {
             return identityKey;
         }
 
-        /**
-         * @return the registration ID associated with this PreKey.
-         */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>the registration ID associated with this PreKey.</returns>
         public uint getRegistrationId()
         {
             return registrationId;

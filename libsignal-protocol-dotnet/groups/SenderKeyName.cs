@@ -1,4 +1,4 @@
-﻿/** 
+/** 
  * Copyright (C) 2016 smndtrl, langboost
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -19,12 +19,11 @@ using System;
 
 namespace libsignal.groups
 {
-    /**
-     * A representation of a (groupId + senderId + deviceId) tuple.
-     */
+    /// <summary>
+    /// A representation of a (groupId + senderId + deviceId) tuple.
+    /// </summary>
     public class SenderKeyName
     {
-
         private readonly String groupId;
         private readonly SignalProtocolAddress sender;
 
@@ -49,7 +48,6 @@ namespace libsignal.groups
             return groupId + "::" + sender.Name + "::" + sender.DeviceId;
         }
 
-
         public override bool Equals(Object other)
         {
             if (other == null) return false;
@@ -66,6 +64,5 @@ namespace libsignal.groups
         {
             return this.groupId.GetHashCode() ^ this.sender.GetHashCode();
         }
-
     }
 }

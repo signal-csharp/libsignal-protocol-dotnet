@@ -1,4 +1,4 @@
-﻿/** 
+/** 
  * Copyright (C) 2016 smndtrl, langboost
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -15,51 +15,48 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System.Diagnostics;
 using libsignal.ecc;
 using libsignal.exceptions;
 using libsignal.protocol;
 using libsignal.ratchet;
 using libsignal.state;
-using libsignal.util;
 using Strilanc.Value;
-using System;
-using System.Diagnostics;
 
 namespace libsignal
 {
-    /**
- * SessionBuilder is responsible for setting up encrypted sessions.
- * Once a session has been established, {@link org.whispersystems.libsignal.SessionCipher}
- * can be used to encrypt/decrypt messages in that session.
- * <p>
- * Sessions are built from one of three different possible vectors:
- * <ol>
- *   <li>A {@link org.whispersystems.libsignal.state.PreKeyBundle} retrieved from a server.</li>
- *   <li>A {@link PreKeySignalMessage} received from a client.</li>
- * </ol>
- *
- * Sessions are constructed per recipientId + deviceId tuple.  Remote logical users are identified
- * by their recipientId, and each logical recipientId can have multiple physical devices.
- *
- * @author Moxie Marlinspike
- */
+    /// <summary>
+    /// SessionBuilder is responsible for setting up encrypted sessions.
+    /// Once a session has been established, <see cref="SessionCipher"/> can be used to encrypt/decrypt messages in that
+    /// session.
+    /// 
+    /// Sessions are built from one of three different possible vectors:
+    /// <list type="number">
+    ///     <item><description>A <see cref="PreKeyBundle"/> retrieved from a server.</description></item>
+    ///     <item><description>A <see cref="PreKeySignalMessage"/> received from a client.</description></item>
+    /// </list>
+    /// 
+    /// Sessions are constructed per recipientId + deviceId tuple.  Remote logical users are identified by their
+    /// recipientId, and each logical recipientId can have multiple physical devices.
+    /// </summary>
     public class SessionBuilder
     {
-
         private readonly SessionStore sessionStore;
         private readonly PreKeyStore preKeyStore;
         private readonly SignedPreKeyStore signedPreKeyStore;
         private readonly IdentityKeyStore identityKeyStore;
         private readonly SignalProtocolAddress remoteAddress;
 
-        /**
-         * Constructs a SessionBuilder.
-         *
-         * @param sessionStore The {@link org.whispersystems.libsignal.state.SessionStore} to store the constructed session in.
-         * @param preKeyStore The {@link  org.whispersystems.libsignal.state.PreKeyStore} where the client's local {@link org.whispersystems.libsignal.state.PreKeyRecord}s are stored.
-         * @param identityKeyStore The {@link org.whispersystems.libsignal.state.IdentityKeyStore} containing the client's identity key information.
-         * @param remoteAddress The address of the remote user to build a session with.
-         */
+        /// <summary>
+        /// Constructs a SessionBuilder.
+        /// </summary>
+        /// <param name="sessionStore">The <see cref="SessionStore"/> to store the constructed session in.</param>
+        /// <param name="preKeyStore">The <see cref="PreKeyStore"/> where the client's local <see cref="PreKeyRecord"/>s
+        /// are stored.</param>
+        /// <param name="signedPreKeyStore"></param>
+        /// <param name="identityKeyStore">The <see cref="IdentityKeyStore"/> containing the client's identity key
+        /// information.</param>
+        /// <param name="remoteAddress">The address of the remote user to build a session with.</param>
         public SessionBuilder(SessionStore sessionStore,
                               PreKeyStore preKeyStore,
                               SignedPreKeyStore signedPreKeyStore,
@@ -73,32 +70,29 @@ namespace libsignal
             this.remoteAddress = remoteAddress;
         }
 
-        /**
-         * Constructs a SessionBuilder
-         * @param store The {@link SignalProtocolStore} to store all state information in.
-         * @param remoteAddress The address of the remote user to build a session with.
-         */
+        /// <summary>
+        /// Constructs a SessionBuilder
+        /// </summary>
+        /// <param name="store">The <see cref="SignalProtocolStore"/> to store all state information in.</param>
+        /// <param name="remoteAddress">The address of the remote user to build a session with.</param>
         public SessionBuilder(SignalProtocolStore store, SignalProtocolAddress remoteAddress)
             : this(store, store, store, store, remoteAddress)
         {
         }
 
-        /**
-         * Build a new session from a received {@link PreKeySignalMessage}.
-         *
-         * After a session is constructed in this way, the embedded {@link SignalMessage}
-         * can be decrypted.
-         *
-         * @param message The received {@link PreKeySignalMessage}.
-         * @throws org.whispersystems.libsignal.InvalidKeyIdException when there is no local
-         *                                                             {@link org.whispersystems.libsignal.state.PreKeyRecord}
-         *                                                             that corresponds to the PreKey ID in
-         *                                                             the message.
-         * @throws org.whispersystems.libsignal.InvalidKeyException when the message is formatted incorrectly.
-         * @throws org.whispersystems.libsignal.UntrustedIdentityException when the {@link IdentityKey} of the sender is untrusted.
-         */
-        /*package*/
-        internal May<uint>  process(SessionRecord sessionRecord, PreKeySignalMessage message)
+        /// <summary>
+        /// Build a new session from a received <see cref="PreKeySignalMessage"/>
+        /// 
+        /// After a session is constructed in this way, the embedded <see cref="SignalMessage"/> can be decrypted.
+        /// </summary>
+        /// <param name="sessionRecord"></param>
+        /// <param name="message">The received <see cref="PreKeySignalMessage"/>.</param>
+        /// <returns></returns>
+        /// <exception cref="InvalidKeyIdException">when there is no local <see cref="PreKeyRecord"/> that corresponds
+        /// to the PreKey ID in the message.</exception>
+        /// <exception cref="InvalidKeyException">when the message is formatted incorrectly.</exception>
+        /// <exception cref="UntrustedIdentityException">when the <see cref="IdentityKey"/> of the sender is untrusted.</exception>
+        internal May<uint> process(SessionRecord sessionRecord, PreKeySignalMessage message)
         {
             uint messageVersion = message.getMessageVersion();
             IdentityKey theirIdentityKey = message.getIdentityKey();
@@ -160,17 +154,12 @@ namespace libsignal
             }
         }
 
-        /**
-         * Build a new session from a {@link org.whispersystems.libsignal.state.PreKeyBundle} retrieved from
-         * a server.
-         *
-         * @param preKey A PreKey for the destination recipient, retrieved from a server.
-         * @throws InvalidKeyException when the {@link org.whispersystems.libsignal.state.PreKeyBundle} is
-         *                             badly formatted.
-         * @throws org.whispersystems.libsignal.UntrustedIdentityException when the sender's
-         *                                                                  {@link IdentityKey} is not
-         *                                                                  trusted.
-         */
+        /// <summary>
+        /// Build a new session from a <see cref="PreKeyBundle"/> retrieved from a server.
+        /// </summary>
+        /// <param name="preKey">A PreKey for the destination recipient, retrieved from a server.</param>
+        /// <exception cref="InvalidKeyException">when the <see cref="PreKeyBundle"/> is badly formatted.</exception>
+        /// <exception cref="UntrustedIdentityException">when the sender's <see cref="IdentityKey"/> is not trusted.</exception>
         public void process(PreKeyBundle preKey)
         {
             lock (SessionCipher.SESSION_LOCK)

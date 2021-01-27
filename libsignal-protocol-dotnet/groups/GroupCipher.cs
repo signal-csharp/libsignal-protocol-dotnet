@@ -1,4 +1,4 @@
-﻿/** 
+/** 
  * Copyright (C) 2016 smndtrl, langboost
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -15,27 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System;
 using libsignal.groups.ratchet;
 using libsignal.groups.state;
 using libsignal.protocol;
 using libsignal.util;
-using System;
 
 namespace libsignal.groups
 {
-    /**
-     * The main entry point for Signal Protocol group encrypt/decrypt operations.
-     *
-     * Once a session has been established with {@link org.whispersystems.libsignal.groups.GroupSessionBuilder}
-     * and a {@link org.whispersystems.libsignal.protocol.SenderKeyDistributionMessage} has been
-     * distributed to each member of the group, this class can be used for all subsequent encrypt/decrypt
-     * operations within that session (ie: until group membership changes).
-     *
-     * @author Moxie Marlinspike
-     */
+    /// <summary>
+    /// The main entry point for Signal Protocol group encrypt/decrypt operations.
+    /// 
+    /// Once a session has been established with <see cref="GroupSessionBuilder"/> and a <see cref="SenderKeyDistributionMessage"/>
+    /// has been distributed to each member of the group, this class can be used for all subsequent encrypt/decrypt
+    /// operations within that session (ie: until group membership changes).
+    /// </summary>
     public class GroupCipher
     {
-
         public static readonly Object LOCK = new Object();
 
         private readonly SenderKeyStore senderKeyStore;
@@ -47,13 +43,12 @@ namespace libsignal.groups
             this.senderKeyId = senderKeyId;
         }
 
-        /**
-         * Encrypt a message.
-         *
-         * @param paddedPlaintext The plaintext message bytes, optionally padded.
-         * @return Ciphertext.
-         * @throws NoSessionException
-         */
+        /// <summary>
+        /// Encrypt a message.
+        /// </summary>
+        /// <param name="paddedPlaintext">The plaintext message bytes, optionally padded.</param>
+        /// <returns>Ciphertext.</returns>
+        /// <exception cref="NoSessionException"></exception>
         public byte[] encrypt(byte[] paddedPlaintext)
         {
             lock (LOCK)
@@ -83,35 +78,33 @@ namespace libsignal.groups
             }
         }
 
-        /**
-         * Decrypt a SenderKey group message.
-         *
-         * @param senderKeyMessageBytes The received ciphertext.
-         * @return Plaintext
-         * @throws LegacyMessageException
-         * @throws InvalidMessageException
-         * @throws DuplicateMessageException
-         */
+        /// <summary>
+        /// Decrypt a SenderKey group message.
+        /// </summary>
+        /// <param name="senderKeyMessageBytes">The received ciphertext.</param>
+        /// <returns>Plaintext</returns>
+        /// <exception cref="LegacyMessageException"></exception>
+        /// <exception cref="InvalidMessageException"></exception>
+        /// <exception cref="DuplicateMessageException"></exception>
+        /// <exception cref="NoSessionException"></exception>
         public byte[] decrypt(byte[] senderKeyMessageBytes)
         {
             return decrypt(senderKeyMessageBytes, new NullDecryptionCallback());
         }
 
-        /**
-         * Decrypt a SenderKey group message.
-         *
-         * @param senderKeyMessageBytes The received ciphertext.
-         * @param callback   A callback that is triggered after decryption is complete,
-         *                    but before the updated session state has been committed to the session
-         *                    DB.  This allows some implementations to store the committed plaintext
-         *                    to a DB first, in case they are concerned with a crash happening between
-         *                    the time the session state is updated but before they're able to store
-         *                    the plaintext to disk.
-         * @return Plaintext
-         * @throws LegacyMessageException
-         * @throws InvalidMessageException
-         * @throws DuplicateMessageException
-         */
+        /// <summary>
+        /// Decrypt a SenderKey group message.
+        /// </summary>
+        /// <param name="senderKeyMessageBytes">The received ciphertext.</param>
+        /// <param name="callback">A callback that is triggered after decryption is complete, but before the updated
+        /// session state has been committed to the session DB. This allows some implementations to store the committed
+        /// plaintext to a DB first, in case they are concerned with a crash happening between the time the session
+        /// state is updated but before they're able to store the plaintext to disk.</param>
+        /// <returns>Plaintext</returns>
+        /// <exception cref="LegacyMessageException"></exception>
+        /// <exception cref="InvalidMessageException"></exception>
+        /// <exception cref="DuplicateMessageException"></exception>
+        /// <exception cref="NoSessionException"></exception>
         public byte[] decrypt(byte[] senderKeyMessageBytes, DecryptionCallback callback)
         {
             lock (LOCK)
@@ -210,15 +203,14 @@ namespace libsignal.groups
                 return Encrypt.aesCbcPkcs5(plaintext, key, iv);
             }
             catch (Exception e)
-    {
+            {
                 throw new Exception(e.Message);
             }
         }
 
-        private  class NullDecryptionCallback : DecryptionCallback
+        private class NullDecryptionCallback : DecryptionCallback
         {
             public void handlePlaintext(byte[] plaintext) { }
         }
-
     }
 }

@@ -1,4 +1,4 @@
-﻿/** 
+/** 
  * Copyright (C) 2016 smndtrl, langboost
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -15,18 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using System.Text;
 using libsignal.kdf;
 using libsignal.util;
-using System.Text;
 
 namespace libsignal.groups.ratchet
 {
-    /**
-     * The final symmetric material (IV and Cipher Key) used for encrypting
-     * individual SenderKey messages.
-     *
-     * @author 
-     */
+    /// <summary>
+    /// The final symmetric material (IV and Cipher Key) used for encrypting individual SenderKey messages.
+    /// </summary>
     public class SenderMessageKey
     {
 

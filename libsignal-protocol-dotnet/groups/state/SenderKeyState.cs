@@ -1,6 +1,3 @@
-﻿
-
-using Google.Protobuf;
 /** 
 * Copyright (C) 2016 smndtrl, langboost
 * 
@@ -17,19 +14,19 @@ using Google.Protobuf;
 * You should have received a copy of the GNU General Public License
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+using System.Collections.Generic;
+using Google.Protobuf;
 using libsignal.ecc;
 using libsignal.groups.ratchet;
 using libsignal.state;
 using Strilanc.Value;
-using System.Collections.Generic;
 
 namespace libsignal.groups.state
 {
-    /**
-     * Represents the state of an individual SenderKey ratchet.
-     *
-     * @author
-     */
+    /// <summary>
+    /// Represents the state of an individual SenderKey ratchet.
+    /// </summary>
     public class SenderKeyState
 	{
 		private static readonly int MAX_MESSAGE_KEYS = 2000;

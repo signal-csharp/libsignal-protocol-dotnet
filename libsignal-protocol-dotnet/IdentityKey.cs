@@ -1,4 +1,4 @@
-﻿/** 
+/** 
  * Copyright (C) 2016 smndtrl, langboost
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -15,20 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-using libsignal.ecc;
 using System;
+using libsignal.ecc;
 
 namespace libsignal
 {
-    /**
-     * A class for representing an identity key.
-     * 
-     * @author Moxie Marlinspike
-     */
-
+    /// <summary>
+    /// A class for representing an identity key.
+    /// </summary>
     public class IdentityKey
     {
-
         private ECPublicKey publicKey;
 
         public IdentityKey(ECPublicKey publicKey)
@@ -63,7 +59,6 @@ namespace libsignal
 
             return publicKey.Equals(((IdentityKey)other).getPublicKey());
         }
-
 
         public override int GetHashCode()
         {

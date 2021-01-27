@@ -1,4 +1,4 @@
-﻿/** 
+/** 
  * Copyright (C) 2016 smndtrl, langboost
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -19,19 +19,15 @@ using libsignal.util;
 
 namespace libsignal.groups.ratchet
 {
-    /**
-     * Each SenderKey is a "chain" of keys, each derived from the previous.
-     *
-     * At any given point in time, the state of a SenderKey can be represented
-     * as the current chain key value, along with its iteration count.  From there,
-     * subsequent iterations can be derived, as well as individual message keys from
-     * each chain key.
-     *
-     * @author
-    */
+    /// <summary>
+    /// Each SenderKey is a "chain" of keys, each derived from the previous.
+    /// 
+    /// At any given point in time, the state of a SenderKey can be represented as the current chain key value, along
+    /// with its iteration count. From there, subsequent iterations can be derived, as well as individual message keys
+    /// from each chain key.
+    /// </summary>
     public class SenderChainKey
     {
-
         private static readonly byte[] MESSAGE_KEY_SEED = { 0x01 };
         private static readonly byte[] CHAIN_KEY_SEED = { 0x02 };
 

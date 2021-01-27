@@ -1,12 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using Google.Protobuf;
 using libsignal.ecc;
 using libsignal.kdf;
 using libsignal.ratchet;
 using libsignal.util;
 using Strilanc.Value;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Google.Protobuf;
 using static libsignal.state.SessionStructure;
 using static libsignal.state.SessionStructure.Types;
 

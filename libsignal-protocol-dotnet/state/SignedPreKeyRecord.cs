@@ -1,6 +1,3 @@
-﻿
-
-using Google.Protobuf;
 /** 
 * Copyright (C) 2016 smndtrl, langboost
 * 
@@ -17,14 +14,15 @@ using Google.Protobuf;
 * You should have received a copy of the GNU General Public License
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-using libsignal.ecc;
+
 using System;
+using Google.Protobuf;
+using libsignal.ecc;
 
 namespace libsignal.state
 {
     public class SignedPreKeyRecord
     {
-
         private SignedPreKeyRecordStructure structure;
 
         public SignedPreKeyRecord(uint id, ulong timestamp, ECKeyPair keyPair, byte[] signature)

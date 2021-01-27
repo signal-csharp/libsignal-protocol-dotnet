@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using libsignal.ecc;
 using libsignal.exceptions;
 using libsignal.protocol;
@@ -5,24 +7,17 @@ using libsignal.ratchet;
 using libsignal.state;
 using libsignal.util;
 using Strilanc.Value;
-using System;
-using System.Collections.Generic;
 
 namespace libsignal
 {
-
-    /**
-     * The main entry point for Signal Protocol encrypt/decrypt operations.
-     *
-     * Once a session has been established with {@link SessionBuilder},
-     * this class can be used for all encrypt/decrypt operations within
-     * that session.
-     *
-     * @author Moxie Marlinspike
-     */
+    /// <summary>
+    /// The main entry point for Signal Protocol encrypt/decrypt operations.
+    /// 
+    /// Once a session has been established with <see cref="SessionBuilder"/>, this class can be used for all
+    /// encrypt/decrypt operations within that session.
+    /// </summary>
     public class SessionCipher
     {
-
         public static readonly object SESSION_LOCK = new object();
 
         private readonly SessionStore sessionStore;
@@ -31,14 +26,15 @@ namespace libsignal
         private readonly PreKeyStore preKeyStore;
         private readonly SignalProtocolAddress remoteAddress;
 
-        /**
-         * Construct a SessionCipher for encrypt/decrypt operations on a session.
-         * In order to use SessionCipher, a session must have already been created
-         * and stored using {@link SessionBuilder}.
-         *
-         * @param  sessionStore The {@link SessionStore} that contains a session for this recipient.
-         * @param  remoteAddress  The remote address that messages will be encrypted to or decrypted from.
-         */
+        /// <summary>
+        /// Construct a SessionCipher for encrypt/decrypt operations on a session.
+        /// In order to use SessionCipher, a session must have already been created and stored using <see cref="SessionBuilder"/>.
+        /// </summary>
+        /// <param name="sessionStore">The <see cref="SessionStore"/> that contains a session for this recipient.</param>
+        /// <param name="preKeyStore"></param>
+        /// <param name="signedPreKeyStore"></param>
+        /// <param name="identityKeyStore"></param>
+        /// <param name="remoteAddress">The remote address that messages will be encrypted to or decrypted from.</param>
         public SessionCipher(SessionStore sessionStore, PreKeyStore preKeyStore,
                              SignedPreKeyStore signedPreKeyStore, IdentityKeyStore identityKeyStore,
                              SignalProtocolAddress remoteAddress)
@@ -57,12 +53,11 @@ namespace libsignal
 
         }
 
-        /**
-         * Encrypt a message.
-         *
-         * @param  paddedMessage The plaintext message bytes, optionally padded to a constant multiple.
-         * @return A ciphertext message encrypted to the recipient+device tuple.
-         */
+        /// <summary>
+        /// Encrypt a message.
+        /// </summary>
+        /// <param name="paddedMessage">The plaintext message bytes, optionally padded to a constant multiple.</param>
+        /// <returns>A ciphertext message encrypted to the recipient+device tuple.</returns>
         public CiphertextMessage encrypt(byte[] paddedMessage)
         {
             lock (SESSION_LOCK)
@@ -107,47 +102,41 @@ namespace libsignal
             }
         }
 
-        /**
-         * Decrypt a message.
-         *
-         * @param  ciphertext The {@link PreKeySignalMessage} to decrypt.
-         *
-         * @return The plaintext.
-         * @throws InvalidMessageException if the input is not valid ciphertext.
-         * @throws DuplicateMessageException if the input is a message that has already been received.
-         * @throws LegacyMessageException if the input is a message formatted by a protocol version that
-         *                                is no longer supported.
-         * @throws InvalidKeyIdException when there is no local {@link org.whispersystems.libsignal.state.PreKeyRecord}
-         *                               that corresponds to the PreKey ID in the message.
-         * @throws InvalidKeyException when the message is formatted incorrectly.
-         * @throws UntrustedIdentityException when the {@link IdentityKey} of the sender is untrusted.
-         */
+        /// <summary>
+        /// Decrypt a message.
+        /// </summary>
+        /// <param name="ciphertext">The <see cref="PreKeySignalMessage"/> to decrypt.</param>
+        /// <returns>The plaintext.</returns>
+        /// <exception cref="InvalidMessageException">if the input is not valid ciphertext.</exception>
+        /// <exception cref="DuplicateMessageException">if the input is a message that has already been received.</exception>
+        /// <exception cref="LegacyMessageException">if the input is a message formatted by a protocol version that is
+        /// no longer supported.</exception>
+        /// <exception cref="InvalidKeyIdException">when there is no local <see cref="PreKeyRecord"/> that corresponds
+        /// to the PreKey ID in the message.</exception>
+        /// <exception cref="InvalidKeyException">when the message is formatted incorrectly.</exception>
+        /// <exception cref="UntrustedIdentityException">when the <see cref="IdentityKey"/> of the sender is untrusted.</exception>
         public byte[] decrypt(PreKeySignalMessage ciphertext)
         {
             return decrypt(ciphertext, new NullDecryptionCallback());
         }
 
-        /**
-         * Decrypt a message.
-         *
-         * @param  ciphertext The {@link PreKeySignalMessage} to decrypt.
-         * @param  callback   A callback that is triggered after decryption is complete,
-         *                    but before the updated session state has been committed to the session
-         *                    DB.  This allows some implementations to store the committed plaintext
-         *                    to a DB first, in case they are concerned with a crash happening between
-         *                    the time the session state is updated but before they're able to store
-         *                    the plaintext to disk.
-         *
-         * @return The plaintext.
-         * @throws InvalidMessageException if the input is not valid ciphertext.
-         * @throws DuplicateMessageException if the input is a message that has already been received.
-         * @throws LegacyMessageException if the input is a message formatted by a protocol version that
-         *                                is no longer supported.
-         * @throws InvalidKeyIdException when there is no local {@link org.whispersystems.libsignal.state.PreKeyRecord}
-         *                               that corresponds to the PreKey ID in the message.
-         * @throws InvalidKeyException when the message is formatted incorrectly.
-         * @throws UntrustedIdentityException when the {@link IdentityKey} of the sender is untrusted.
-         */
+        /// <summary>
+        /// Decrypt a message.
+        /// </summary>
+        /// <param name="ciphertext">The <see cref="PreKeySignalMessage"/> to decrypt.</param>
+        /// <param name="callback">A callback that is triggered after decryption is complete, but before the updated
+        /// session state has been committed to the session DB. This allows some implementations to store the committed
+        /// plaintext to a DB first, in case they are concerned with a crash happening between the time the session
+        /// state is updated but before they're able to store the plaintext to disk.</param>
+        /// <returns>The plaintext.</returns>
+        /// <exception cref="InvalidMessageException">if the input is not valid ciphertext.</exception>
+        /// <exception cref="DuplicateMessageException">if the input is a message that has already been received.</exception>
+        /// <exception cref="LegacyMessageException">if the input is a message formatted by a protocol version that is
+        /// no longer supported.</exception>
+        /// <exception cref="InvalidKeyIdException">when there is no local <see cref="PreKeyRecord"/> that corresponds
+        /// 
+        /// <exception cref="InvalidKeyException">when the message is formatted incorrectly.</exception>
+        /// <exception cref="UntrustedIdentityException">when the <see cref="IdentityKey"/> of the sender is untrusted.</exception>
         public byte[] decrypt(PreKeySignalMessage ciphertext, DecryptionCallback callback)
         {
             lock (SESSION_LOCK)
@@ -171,41 +160,35 @@ namespace libsignal
             }
         }
 
-        /**
-         * Decrypt a message.
-         *
-         * @param  ciphertext The {@link SignalMessage} to decrypt.
-         *
-         * @return The plaintext.
-         * @throws InvalidMessageException if the input is not valid ciphertext.
-         * @throws DuplicateMessageException if the input is a message that has already been received.
-         * @throws LegacyMessageException if the input is a message formatted by a protocol version that
-         *                                is no longer supported.
-         * @throws NoSessionException if there is no established session for this contact.
-         */
+        /// <summary>
+        /// Decrypt a message.
+        /// </summary>
+        /// <param name="ciphertext">The <see cref="SignalMessage"/> to decrypt.</param>
+        /// <returns>The plaintext.</returns>
+        /// <exception cref="InvalidMessageException">if the input is not valid ciphertext.</exception>
+        /// <exception cref="DuplicateMessageException">if the input is a message that has already been received.</exception>
+        /// <exception cref="LegacyMessageException">if the input is a message formatted by a protocol version that is
+        /// no longer supported.</exception>
+        /// <exception cref="NoSessionException">if there is no established session for this contact.</exception>
         public byte[] decrypt(SignalMessage ciphertext)
         {
             return decrypt(ciphertext, new NullDecryptionCallback());
         }
 
-        /**
-         * Decrypt a message.
-         *
-         * @param  ciphertext The {@link SignalMessage} to decrypt.
-         * @param  callback   A callback that is triggered after decryption is complete,
-         *                    but before the updated session state has been committed to the session
-         *                    DB.  This allows some implementations to store the committed plaintext
-         *                    to a DB first, in case they are concerned with a crash happening between
-         *                    the time the session state is updated but before they're able to store
-         *                    the plaintext to disk.
-         *
-         * @return The plaintext.
-         * @throws InvalidMessageException if the input is not valid ciphertext.
-         * @throws DuplicateMessageException if the input is a message that has already been received.
-         * @throws LegacyMessageException if the input is a message formatted by a protocol version that
-         *                                is no longer supported.
-         * @throws NoSessionException if there is no established session for this contact.
-         */
+        /// <summary>
+        /// Decrypt a message.
+        /// </summary>
+        /// <param name="ciphertext">The <see cref="SignalMessage"/> to decrypt.</param>
+        /// <param name="callback">A callback that is triggered after decryption is complete, but before the updated
+        /// session state has been committed to the session DB. This allows some implementations to store the committed
+        /// plaintext to a DB first, in case they are concerned with a crash happening between the time the session
+        /// state is updated but before they're able to store the plaintext to disk.</param>
+        /// <returns>The plaintext.</returns>
+        /// <exception cref="InvalidMessageException">if the input is not valid ciphertext.</exception>
+        /// <exception cref="DuplicateMessageException">if the input is a message that has already been received.</exception>
+        /// <exception cref="LegacyMessageException">if the input is a message formatted by a protocol version that is
+        /// no longer supported.</exception>
+        /// <exception cref="NoSessionException">if there is no established session for this contact.</exception>
         public byte[] decrypt(SignalMessage ciphertext, DecryptionCallback callback)
         {
             lock (SESSION_LOCK)

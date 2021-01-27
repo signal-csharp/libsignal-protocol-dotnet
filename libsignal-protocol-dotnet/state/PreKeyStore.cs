@@ -1,4 +1,4 @@
-﻿/** 
+/** 
  * Copyright (C) 2016 smndtrl, langboost
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -17,42 +17,37 @@
 
 namespace libsignal.state
 {
-    /**
-     * An interface describing the local storage of {@link PreKeyRecord}s.
-     *
-     * @author
-     */
+    /// <summary>
+    /// An interface describing the local storage of <see cref="PreKeyRecord"/>s
+    /// </summary>
     public interface PreKeyStore
     {
-
-        /**
-         * Load a local PreKeyRecord.
-         *
-         * @param preKeyId the ID of the local PreKeyRecord.
-         * @return the corresponding PreKeyRecord.
-         * @throws InvalidKeyIdException when there is no corresponding PreKeyRecord.
-         */
+        /// <summary>
+        /// Load a local PreKeyRecord.
+        /// </summary>
+        /// <param name="preKeyId">the ID of the local PreKeyRecord.</param>
+        /// <returns>the corresponding PreKeyRecord.</returns>
+        /// <exception cref="InvalidKeyIdException">when there is no corresponding PreKeyRecord.</exception>
         PreKeyRecord LoadPreKey(uint preKeyId);
 
-        /**
-         * Store a local PreKeyRecord.
-         *
-         * @param preKeyId the ID of the PreKeyRecord to store.
-         * @param record the PreKeyRecord.
-         */
+        /// <summary>
+        /// Store a local PreKeyRecord.
+        /// </summary>
+        /// <param name="preKeyId">the ID of the PreKeyRecord to store.</param>
+        /// <param name="record">the PreKeyRecord.</param>
         void StorePreKey(uint preKeyId, PreKeyRecord record);
 
-        /**
-         * @param preKeyId A PreKeyRecord ID.
-         * @return true if the store has a record for the preKeyId, otherwise false.
-         */
-         bool ContainsPreKey(uint preKeyId);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="preKeyId">A PreKeyRecord ID.</param>
+        /// <returns>true if the store has a record for the preKeyId, otherwise false.</returns>
+        bool ContainsPreKey(uint preKeyId);
 
-        /**
-         * Delete a PreKeyRecord from local storage.
-         *
-         * @param preKeyId The ID of the PreKeyRecord to remove.
-         */
+        /// <summary>
+        /// Delete a PreKeyRecord from local storage.
+        /// </summary>
+        /// <param name="preKeyId">The ID of the PreKeyRecord to remove.</param>
         void RemovePreKey(uint preKeyId);
 
     }
