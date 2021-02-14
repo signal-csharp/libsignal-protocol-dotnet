@@ -19,7 +19,9 @@ using System;
 using libsignal.groups.ratchet;
 using libsignal.groups.state;
 using libsignal.protocol;
+using libsignal.state;
 using libsignal.util;
+using System.Threading.Tasks;
 
 namespace libsignal.groups
 {
@@ -127,7 +129,7 @@ namespace libsignal.groups
 
                     byte[] plaintext = getPlainText(senderKey.getIv(), senderKey.getCipherKey(), senderKeyMessage.getCipherText());
 
-                    callback.handlePlaintext(plaintext);
+                    callback.handlePlaintext(plaintext, 931).Wait();//931 random as we don't have the real version
 
                     senderKeyStore.storeSenderKey(senderKeyId, record);
 
@@ -210,7 +212,8 @@ namespace libsignal.groups
 
         private class NullDecryptionCallback : DecryptionCallback
         {
-            public void handlePlaintext(byte[] plaintext) { }
-        }
+			public Task handlePlaintext(byte[] plaintext, uint sessionVersion) => Task.CompletedTask;
+
+		}
     }
 }

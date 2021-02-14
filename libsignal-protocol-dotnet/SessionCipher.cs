@@ -7,6 +7,7 @@ using libsignal.ratchet;
 using libsignal.state;
 using libsignal.util;
 using Strilanc.Value;
+using System.Threading.Tasks;
 
 namespace libsignal
 {
@@ -117,7 +118,9 @@ namespace libsignal
         /// <exception cref="UntrustedIdentityException">when the <see cref="IdentityKey"/> of the sender is untrusted.</exception>
         public byte[] decrypt(PreKeySignalMessage ciphertext)
         {
-            return decrypt(ciphertext, new NullDecryptionCallback());
+            var tsk = (decrypt(ciphertext, new NullDecryptionCallback()));
+            tsk.Wait();
+            return tsk.Result;
         }
 
         /// <summary>
@@ -137,7 +140,7 @@ namespace libsignal
         /// 
         /// <exception cref="InvalidKeyException">when the message is formatted incorrectly.</exception>
         /// <exception cref="UntrustedIdentityException">when the <see cref="IdentityKey"/> of the sender is untrusted.</exception>
-        public byte[] decrypt(PreKeySignalMessage ciphertext, DecryptionCallback callback)
+        public Task<byte[]> decrypt(PreKeySignalMessage ciphertext, DecryptionCallback callback)
         {
             lock (SESSION_LOCK)
             {
@@ -147,7 +150,7 @@ namespace libsignal
 
                 identityKeyStore.SaveIdentity(remoteAddress, sessionRecord.getSessionState().getRemoteIdentityKey());
 
-                callback.handlePlaintext(plaintext);
+                callback.handlePlaintext(plaintext, sessionRecord.getSessionState().getSessionVersion()).Wait();
 
                 sessionStore.StoreSession(remoteAddress, sessionRecord);
 
@@ -156,7 +159,7 @@ namespace libsignal
                     preKeyStore.RemovePreKey(unsignedPreKeyId.ForceGetValue());
                 }
 
-                return plaintext;
+                return Task.FromResult(plaintext);
             }
         }
 
@@ -172,7 +175,9 @@ namespace libsignal
         /// <exception cref="NoSessionException">if there is no established session for this contact.</exception>
         public byte[] decrypt(SignalMessage ciphertext)
         {
-            return decrypt(ciphertext, new NullDecryptionCallback());
+            var tsk = decrypt(ciphertext, new NullDecryptionCallback());
+            tsk.Wait();
+            return tsk.Result;
         }
 
         /// <summary>
@@ -189,7 +194,7 @@ namespace libsignal
         /// <exception cref="LegacyMessageException">if the input is a message formatted by a protocol version that is
         /// no longer supported.</exception>
         /// <exception cref="NoSessionException">if there is no established session for this contact.</exception>
-        public byte[] decrypt(SignalMessage ciphertext, DecryptionCallback callback)
+        public Task<byte[]> decrypt(SignalMessage ciphertext, DecryptionCallback callback)
         {
             lock (SESSION_LOCK)
             {
@@ -207,11 +212,11 @@ namespace libsignal
                     throw new UntrustedIdentityException(remoteAddress.Name, sessionRecord.getSessionState().getRemoteIdentityKey());
                 }
 
-                callback.handlePlaintext(plaintext);
+                callback.handlePlaintext(plaintext, sessionRecord.getSessionState().getSessionVersion()).Wait();//no async in a lock
 
                 sessionStore.StoreSession(remoteAddress, sessionRecord);
 
-                return plaintext;
+                return Task.FromResult(plaintext);
             }
         }
 
@@ -391,7 +396,7 @@ namespace libsignal
         private class NullDecryptionCallback : DecryptionCallback
         {
 
-            public void handlePlaintext(byte[] plaintext) { }
+            public Task handlePlaintext(byte[] plaintext, uint sessionVersion) => Task.CompletedTask;
         }
     }
 }
