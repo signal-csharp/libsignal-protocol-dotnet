@@ -1,4 +1,4 @@
-﻿/** 
+/** 
  * Copyright (C) 2016 langboost
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace libsignal_test
 {
@@ -46,10 +47,11 @@ namespace libsignal_test
                 this.originalMessage = originalMessage;
             }
 
-            public void handlePlaintext(byte[] plaintext)
+            public Task handlePlaintext(byte[] plaintext, uint sessionVersion)
             {
                 Assert.AreEqual(originalMessage, Encoding.UTF8.GetString(plaintext));
                 Assert.IsFalse(bobStore.ContainsSession(ALICE_ADDRESS));
+                return Task.CompletedTask;
             }
         }
 
@@ -87,7 +89,7 @@ namespace libsignal_test
             bobStore.StoreSignedPreKey(22, new SignedPreKeyRecord(22, DateUtil.currentTimeMillis(), bobSignedPreKeyPair, bobSignedPreKeySignature));
 
             SessionCipher bobSessionCipher = new SessionCipher(bobStore, ALICE_ADDRESS);
-            byte[] plaintext = bobSessionCipher.decrypt(incomingMessage, new BobDecryptionCallback(bobStore, originalMessage));
+            byte[] plaintext = bobSessionCipher.decrypt(incomingMessage, new BobDecryptionCallback(bobStore, originalMessage)).Result;
 
             Assert.IsTrue(bobStore.ContainsSession(ALICE_ADDRESS));
             Assert.AreEqual((uint)3, bobStore.LoadSession(ALICE_ADDRESS).getSessionState().getSessionVersion());
