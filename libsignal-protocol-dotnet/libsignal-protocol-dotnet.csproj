@@ -12,7 +12,15 @@
     <RepositoryUrl>https://github.com/signal-csharp/libsignal-protocol-dotnet</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>signal libsignal libsignal-protocol libsignal-protocol-dotnet</PackageTags>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
 
   <PropertyGroup>
     <IncludeSymbols>true</IncludeSymbols>
