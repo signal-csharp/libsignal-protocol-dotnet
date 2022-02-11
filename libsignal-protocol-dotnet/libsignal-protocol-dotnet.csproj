@@ -22,7 +22,7 @@
   <ItemGroup>
     <PackageReference Include="curve25519-dotnet" Version="0.5.0" />
     <!-- Do not upgrade! 3.12.4 is the last version to not include System.Memory (Span) which does not work on Windows 10 Mobile. -->
-    <PackageReference Include="Google.Protobuf" Version="3.12.4" />
+    <PackageReference Include="Google.Protobuf" Version="3.15.0" />
     <PackageReference Include="May-dotnet" Version="1.2.3" />
     <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.1" />
   </ItemGroup>
